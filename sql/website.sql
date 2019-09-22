@@ -105,141 +105,6 @@ CREATE TABLE `t_generator_config`  (
 INSERT INTO `t_generator_config` VALUES (1, 'MrBird', 'cc.mrbird.febs.gen', 'entity', 'mapper', 'mapper', 'service', 'service.impl', 'controller', '1', 't_');
 
 -- ----------------------------
--- Table structure for t_job
--- ----------------------------
-DROP TABLE IF EXISTS `t_job`;
-CREATE TABLE `t_job`  (
-                          `JOB_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务id',
-                          `BEAN_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
-                          `METHOD_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
-                          `PARAMS` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
-                          `CRON_EXPRESSION` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'cron表达式',
-                          `STATUS` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务状态  0：正常  1：暂停',
-                          `REMARK` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-                          `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-                          PRIMARY KEY (`JOB_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '定时任务表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_job
--- ----------------------------
-INSERT INTO `t_job` VALUES (1, 'testTask', 'test', 'mrbird', '0/1 * * * * ?', '1', '有参任务调度测试~~', '2018-02-24 16:26:14');
-INSERT INTO `t_job` VALUES (2, 'testTask', 'test1', NULL, '0/10 * * * * ?', '1', '无参任务调度测试', '2018-02-24 17:06:23');
-INSERT INTO `t_job` VALUES (3, 'testTask', 'test', 'hello world', '0/1 * * * * ?', '1', '有参任务调度测试,每隔一秒触发', '2018-02-26 09:28:26');
-INSERT INTO `t_job` VALUES (11, 'testTask', 'test2', NULL, '0/5 * * * * ?', '1', '测试异常', '2018-02-26 11:15:30');
-
--- ----------------------------
--- Table structure for t_job_log
--- ----------------------------
-DROP TABLE IF EXISTS `t_job_log`;
-CREATE TABLE `t_job_log`  (
-                              `LOG_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志id',
-                              `JOB_ID` bigint(20) NOT NULL COMMENT '任务id',
-                              `BEAN_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'spring bean名称',
-                              `METHOD_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '方法名',
-                              `PARAMS` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '参数',
-                              `STATUS` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务状态    0：成功    1：失败',
-                              `ERROR` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '失败信息',
-                              `TIMES` decimal(11, 0) NULL DEFAULT NULL COMMENT '耗时(单位：毫秒)',
-                              `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-                              PRIMARY KEY (`LOG_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2562 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '调度日志表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_job_log
--- ----------------------------
-INSERT INTO `t_job_log` VALUES (2472, 2, 'testTask', 'test1', NULL, '0', NULL, 14, '2018-04-02 17:29:50');
-INSERT INTO `t_job_log` VALUES (2473, 2, 'testTask', 'test1', NULL, '0', NULL, 1, '2018-04-02 17:30:00');
-INSERT INTO `t_job_log` VALUES (2474, 2, 'testTask', 'test1', NULL, '0', NULL, 0, '2018-04-02 17:30:10');
-INSERT INTO `t_job_log` VALUES (2475, 2, 'testTask', 'test1', NULL, '0', NULL, 1, '2018-04-02 17:30:20');
-INSERT INTO `t_job_log` VALUES (2476, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 08:49:24');
-INSERT INTO `t_job_log` VALUES (2477, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 08:49:25');
-INSERT INTO `t_job_log` VALUES (2478, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 08:49:26');
-INSERT INTO `t_job_log` VALUES (2479, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 08:49:27');
-INSERT INTO `t_job_log` VALUES (2480, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 08:49:28');
-INSERT INTO `t_job_log` VALUES (2481, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 08:49:29');
-INSERT INTO `t_job_log` VALUES (2482, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 08:49:30');
-INSERT INTO `t_job_log` VALUES (2483, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 08:49:31');
-INSERT INTO `t_job_log` VALUES (2484, 1, 'testTask', 'test', 'mrbird', '0', NULL, 4, '2019-06-11 10:43:36');
-INSERT INTO `t_job_log` VALUES (2485, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:37');
-INSERT INTO `t_job_log` VALUES (2486, 1, 'testTask', 'test', 'mrbird', '0', NULL, 15, '2019-06-11 10:43:38');
-INSERT INTO `t_job_log` VALUES (2487, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:39');
-INSERT INTO `t_job_log` VALUES (2488, 1, 'testTask', 'test', 'mrbird', '0', NULL, 53, '2019-06-11 10:43:40');
-INSERT INTO `t_job_log` VALUES (2489, 1, 'testTask', 'test', 'mrbird', '0', NULL, 3, '2019-06-11 10:43:41');
-INSERT INTO `t_job_log` VALUES (2490, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:43:42');
-INSERT INTO `t_job_log` VALUES (2491, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:43');
-INSERT INTO `t_job_log` VALUES (2492, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:43:44');
-INSERT INTO `t_job_log` VALUES (2493, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:45');
-INSERT INTO `t_job_log` VALUES (2494, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:46');
-INSERT INTO `t_job_log` VALUES (2495, 1, 'testTask', 'test', 'mrbird', '0', NULL, 13, '2019-06-11 10:43:47');
-INSERT INTO `t_job_log` VALUES (2496, 1, 'testTask', 'test', 'mrbird', '0', NULL, 35, '2019-06-11 10:43:48');
-INSERT INTO `t_job_log` VALUES (2497, 1, 'testTask', 'test', 'mrbird', '0', NULL, 3, '2019-06-11 10:43:49');
-INSERT INTO `t_job_log` VALUES (2498, 1, 'testTask', 'test', 'mrbird', '0', NULL, 7, '2019-06-11 10:43:50');
-INSERT INTO `t_job_log` VALUES (2499, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:51');
-INSERT INTO `t_job_log` VALUES (2500, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:52');
-INSERT INTO `t_job_log` VALUES (2501, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:43:53');
-INSERT INTO `t_job_log` VALUES (2502, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:54');
-INSERT INTO `t_job_log` VALUES (2503, 1, 'testTask', 'test', 'mrbird', '0', NULL, 14, '2019-06-11 10:43:55');
-INSERT INTO `t_job_log` VALUES (2504, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:43:56');
-INSERT INTO `t_job_log` VALUES (2505, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:57');
-INSERT INTO `t_job_log` VALUES (2506, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:43:58');
-INSERT INTO `t_job_log` VALUES (2507, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:43:59');
-INSERT INTO `t_job_log` VALUES (2508, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:44:00');
-INSERT INTO `t_job_log` VALUES (2509, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:01');
-INSERT INTO `t_job_log` VALUES (2510, 1, 'testTask', 'test', 'mrbird', '0', NULL, 37, '2019-06-11 10:44:02');
-INSERT INTO `t_job_log` VALUES (2511, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:03');
-INSERT INTO `t_job_log` VALUES (2512, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:04');
-INSERT INTO `t_job_log` VALUES (2513, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:05');
-INSERT INTO `t_job_log` VALUES (2514, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:44:06');
-INSERT INTO `t_job_log` VALUES (2515, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:44:07');
-INSERT INTO `t_job_log` VALUES (2516, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:08');
-INSERT INTO `t_job_log` VALUES (2517, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:09');
-INSERT INTO `t_job_log` VALUES (2518, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:10');
-INSERT INTO `t_job_log` VALUES (2519, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:11');
-INSERT INTO `t_job_log` VALUES (2520, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:12');
-INSERT INTO `t_job_log` VALUES (2521, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:13');
-INSERT INTO `t_job_log` VALUES (2522, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:16');
-INSERT INTO `t_job_log` VALUES (2523, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:16');
-INSERT INTO `t_job_log` VALUES (2524, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:16');
-INSERT INTO `t_job_log` VALUES (2525, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:17');
-INSERT INTO `t_job_log` VALUES (2526, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:18');
-INSERT INTO `t_job_log` VALUES (2527, 1, 'testTask', 'test', 'mrbird', '0', NULL, 145, '2019-06-11 10:44:19');
-INSERT INTO `t_job_log` VALUES (2528, 1, 'testTask', 'test', 'mrbird', '0', NULL, 11, '2019-06-11 10:44:20');
-INSERT INTO `t_job_log` VALUES (2529, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:21');
-INSERT INTO `t_job_log` VALUES (2530, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:22');
-INSERT INTO `t_job_log` VALUES (2531, 1, 'testTask', 'test', 'mrbird', '0', NULL, 206, '2019-06-11 10:44:23');
-INSERT INTO `t_job_log` VALUES (2532, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:44:24');
-INSERT INTO `t_job_log` VALUES (2533, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:44:25');
-INSERT INTO `t_job_log` VALUES (2534, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:26');
-INSERT INTO `t_job_log` VALUES (2535, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:44:27');
-INSERT INTO `t_job_log` VALUES (2536, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:44:28');
-INSERT INTO `t_job_log` VALUES (2537, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:45:54');
-INSERT INTO `t_job_log` VALUES (2538, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:45:55');
-INSERT INTO `t_job_log` VALUES (2539, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:45:56');
-INSERT INTO `t_job_log` VALUES (2540, 1, 'testTask', 'test', 'mrbird', '0', NULL, 4, '2019-06-11 10:45:57');
-INSERT INTO `t_job_log` VALUES (2541, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:45:58');
-INSERT INTO `t_job_log` VALUES (2542, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:45:59');
-INSERT INTO `t_job_log` VALUES (2543, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:46:00');
-INSERT INTO `t_job_log` VALUES (2544, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:01');
-INSERT INTO `t_job_log` VALUES (2545, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:02');
-INSERT INTO `t_job_log` VALUES (2546, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:46:03');
-INSERT INTO `t_job_log` VALUES (2547, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:04');
-INSERT INTO `t_job_log` VALUES (2548, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:46:05');
-INSERT INTO `t_job_log` VALUES (2549, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:46:06');
-INSERT INTO `t_job_log` VALUES (2550, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:07');
-INSERT INTO `t_job_log` VALUES (2551, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:46:45');
-INSERT INTO `t_job_log` VALUES (2552, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:46');
-INSERT INTO `t_job_log` VALUES (2553, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:47');
-INSERT INTO `t_job_log` VALUES (2554, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:46:48');
-INSERT INTO `t_job_log` VALUES (2555, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:49');
-INSERT INTO `t_job_log` VALUES (2556, 1, 'testTask', 'test', 'mrbird', '0', NULL, 10, '2019-06-11 10:46:50');
-INSERT INTO `t_job_log` VALUES (2557, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:46:51');
-INSERT INTO `t_job_log` VALUES (2558, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:52');
-INSERT INTO `t_job_log` VALUES (2559, 1, 'testTask', 'test', 'mrbird', '0', NULL, 2, '2019-06-11 10:46:53');
-INSERT INTO `t_job_log` VALUES (2560, 1, 'testTask', 'test', 'mrbird', '0', NULL, 0, '2019-06-11 10:46:54');
-INSERT INTO `t_job_log` VALUES (2561, 1, 'testTask', 'test', 'mrbird', '0', NULL, 1, '2019-06-11 10:46:55');
-
--- ----------------------------
 -- Table structure for t_log
 -- ----------------------------
 DROP TABLE IF EXISTS `t_log`;
@@ -447,15 +312,6 @@ INSERT INTO `t_menu` VALUES (22, 6, '删除部门', NULL, 'dept:delete', NULL, '
 INSERT INTO `t_menu` VALUES (23, 8, '踢出用户', NULL, 'user:kickout', NULL, '1', NULL, '2017-12-27 17:11:13', NULL);
 INSERT INTO `t_menu` VALUES (24, 10, '删除日志', NULL, 'log:delete', NULL, '1', NULL, '2017-12-27 17:11:45', '2019-06-06 05:56:40');
 INSERT INTO `t_menu` VALUES (101, 0, '任务调度', NULL, NULL, 'layui-icon-time-circle', '0', 3, '2018-02-24 15:52:57', NULL);
-INSERT INTO `t_menu` VALUES (102, 101, '定时任务', '/job/job', 'job:view', '', '0', 1, '2018-02-24 15:53:53', '2018-04-25 09:05:12');
-INSERT INTO `t_menu` VALUES (103, 102, '新增任务', NULL, 'job:add', NULL, '1', NULL, '2018-02-24 15:55:10', NULL);
-INSERT INTO `t_menu` VALUES (104, 102, '修改任务', NULL, 'job:update', NULL, '1', NULL, '2018-02-24 15:55:53', NULL);
-INSERT INTO `t_menu` VALUES (105, 102, '删除任务', NULL, 'job:delete', NULL, '1', NULL, '2018-02-24 15:56:18', NULL);
-INSERT INTO `t_menu` VALUES (106, 102, '暂停任务', NULL, 'job:pause', NULL, '1', NULL, '2018-02-24 15:57:08', NULL);
-INSERT INTO `t_menu` VALUES (107, 102, '恢复任务', NULL, 'job:resume', NULL, '1', NULL, '2018-02-24 15:58:21', NULL);
-INSERT INTO `t_menu` VALUES (108, 102, '立即执行任务', NULL, 'job:run', NULL, '1', NULL, '2018-02-24 15:59:45', NULL);
-INSERT INTO `t_menu` VALUES (109, 101, '调度日志', '/job/log', 'job:log:view', '', '0', 2, '2018-02-24 16:00:45', '2019-06-09 02:48:19');
-INSERT INTO `t_menu` VALUES (110, 109, '删除日志', NULL, 'job:log:delete', NULL, '1', NULL, '2018-02-24 16:01:21', NULL);
 INSERT INTO `t_menu` VALUES (113, 2, 'Redis监控', '/monitor/redis/info', 'redis:view', '', '0', 4, '2018-06-28 14:29:42', '2019-06-13 14:30:45');
 INSERT INTO `t_menu` VALUES (114, 2, 'Redis终端', '/monitor/redis/terminal', 'redis:terminal:view', '', '0', 5, '2018-06-28 15:35:21', '2019-06-13 14:30:54');
 INSERT INTO `t_menu` VALUES (115, 0, '其他模块', NULL, NULL, 'layui-icon-gift', '0', 5, '2019-05-27 10:18:07', NULL);
@@ -496,8 +352,6 @@ INSERT INTO `t_menu` VALUES (169, 125, '导入Excel', NULL, 'eximport:import', N
 INSERT INTO `t_menu` VALUES (170, 10, '导出Excel', NULL, 'log:export', NULL, '1', NULL, '2019-06-13 14:34:55', NULL);
 INSERT INTO `t_menu` VALUES (171, 136, '删除日志', NULL, 'loginlog:delete', NULL, '1', NULL, '2019-06-13 14:35:27', '2019-06-13 14:36:08');
 INSERT INTO `t_menu` VALUES (172, 136, '导出Excel', NULL, 'loginlog:export', NULL, '1', NULL, '2019-06-13 14:36:26', NULL);
-INSERT INTO `t_menu` VALUES (173, 102, '导出Excel', NULL, 'job:export', NULL, '1', NULL, '2019-06-13 14:37:25', NULL);
-INSERT INTO `t_menu` VALUES (174, 109, '导出Excel', NULL, 'job:log:export', NULL, '1', NULL, '2019-06-13 14:37:46', '2019-06-13 14:38:02');
 INSERT INTO `t_menu` VALUES (175, 2, 'Swagger文档', '/monitor/swagger', 'swagger:view', '', '0', 8, '2019-08-18 17:25:36', '2019-08-18 17:25:59');
 INSERT INTO `t_menu` VALUES (176, 0, '1234', NULL, NULL, NULL, '1', NULL, '2019-08-18 17:37:10', NULL);
 INSERT INTO `t_menu` VALUES (177, 0, '513241', '', '', '', '0', NULL, '2019-08-18 17:38:30', NULL);
@@ -757,5 +611,21 @@ INSERT INTO `t_user_role` VALUES (6, 80);
 INSERT INTO `t_user_role` VALUES (7, 78);
 INSERT INTO `t_user_role` VALUES (7, 79);
 INSERT INTO `t_user_role` VALUES (7, 80);
+
+CREATE TABLE `t_site` (
+  `SITE_ID` int(4) NOT NULL AUTO_INCREMENT COMMENT '站点编号',
+  `SITE_NAME` varchar(100) NOT NULL COMMENT '站点名称',
+  `SITE_PATH` varchar(100) NOT NULL COMMENT '站点简称',
+  `KEYWORDS` varchar(100) DEFAULT NULL COMMENT '关键字',
+  `DOMAIN_NAME` varchar(100) DEFAULT NULL COMMENT '域名',
+  `ACCESS_PROTOCOL` varchar(10) DEFAULT NULL COMMENT '访问协议',
+  `ACCESS_PATH` varchar(100) DEFAULT NULL COMMENT '访问地址',
+  `SORT` char(3) DEFAULT NULL COMMENT '排序',
+  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+  `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+  `STATUS` char(1) DEFAULT NULL COMMENT '0、删除 1、正常',
+  `REMARK` varchar(64) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`SITE_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='站点管理';
 
 SET FOREIGN_KEY_CHECKS = 1;
