@@ -612,6 +612,10 @@ INSERT INTO `t_user_role` VALUES (7, 78);
 INSERT INTO `t_user_role` VALUES (7, 79);
 INSERT INTO `t_user_role` VALUES (7, 80);
 
+-- ----------------------------
+-- Table structure for t_site
+-- ----------------------------
+DROP TABLE IF EXISTS `t_site`;
 CREATE TABLE `t_site` (
   `SITE_ID` int(4) NOT NULL AUTO_INCREMENT COMMENT '站点编号',
   `SITE_NAME` varchar(100) NOT NULL COMMENT '站点名称',
@@ -626,6 +630,6 @@ CREATE TABLE `t_site` (
   `STATUS` char(1) DEFAULT NULL COMMENT '0、删除 1、正常',
   `REMARK` varchar(64) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`SITE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='站点管理';
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_c COMMENT='站点管理' ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
