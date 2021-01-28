@@ -5,8 +5,7 @@ server:
 
 spring:
   profiles:
-    #  和 dev 配置相同
-    active: devol
+    active: dev
 
   thymeleaf:
     cache: false
