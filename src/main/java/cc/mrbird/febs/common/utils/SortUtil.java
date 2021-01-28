@@ -3,12 +3,13 @@ package cc.mrbird.febs.common.utils;
 import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 
 /**
  * 处理排序工具类
- * 
+ *
  * @author MrBird
  */
 @SuppressWarnings("unchecked")
@@ -34,16 +35,18 @@ public class SortUtil {
                 && StringUtils.isNotBlank(request.getOrder())
                 && !StringUtils.equalsIgnoreCase(request.getField(), "null")
                 && !StringUtils.equalsIgnoreCase(request.getOrder(), "null")) {
-            if (StringUtils.equals(request.getOrder(), FebsConstant.ORDER_DESC))
-                page.setDesc(sortField);
-            else
-                page.setAsc(sortField);
+            if (StringUtils.equals(request.getOrder(), FebsConstant.ORDER_DESC)) {
+                page.addOrder(OrderItem.desc(sortField));
+            } else {
+                page.addOrder(OrderItem.asc(sortField));
+            }
         } else {
             if (StringUtils.isNotBlank(defaultSort)) {
-                if (StringUtils.equals(defaultOrder, FebsConstant.ORDER_DESC))
-                    page.setDesc(defaultSort);
-                else
-                    page.setAsc(defaultSort);
+                if (StringUtils.equals(defaultOrder, FebsConstant.ORDER_DESC)) {
+                    page.addOrder(OrderItem.desc(defaultSort));
+                } else {
+                    page.addOrder(OrderItem.asc(defaultSort));
+                }
             }
         }
     }

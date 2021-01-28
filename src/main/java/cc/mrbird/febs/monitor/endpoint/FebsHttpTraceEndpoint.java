@@ -1,6 +1,7 @@
 package cc.mrbird.febs.monitor.endpoint;
 
 import cc.mrbird.febs.common.annotation.FebsEndPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 
@@ -9,14 +10,11 @@ import java.util.List;
 /**
  * @author MrBird
  */
+@RequiredArgsConstructor
 @FebsEndPoint
 public class FebsHttpTraceEndpoint {
 
     private final HttpTraceRepository repository;
-
-    public FebsHttpTraceEndpoint(HttpTraceRepository repository) {
-        this.repository = repository;
-    }
 
     public FebsHttpTraceDescriptor traces() {
         return new FebsHttpTraceDescriptor(this.repository.findAll());

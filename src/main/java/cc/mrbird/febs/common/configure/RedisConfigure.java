@@ -146,7 +146,7 @@ class JacksonRedisSerializer<T> implements RedisSerializer<T> {
         super();
         this.clazz = clazz;
         this.mapper = new ObjectMapper();
-        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        mapper.activateDefaultTyping(this.mapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
     }
 
     @Override

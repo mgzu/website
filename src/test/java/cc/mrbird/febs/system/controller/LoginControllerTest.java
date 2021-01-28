@@ -1,17 +1,14 @@
 package cc.mrbird.febs.system.controller;
 
-import cc.mrbird.febs.FebsApplicationTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 /**
  * @author https://github.com/mgzu
- * @date 2019-09-10
+ * @since 2019-09-10
  */
-
-public class LoginControllerTest extends FebsApplicationTest {
+@WebMvcTest(controllers = LoginController.class)
+public class LoginControllerTest {
 
     @Test
     public void login() {

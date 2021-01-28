@@ -6,6 +6,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Statistic;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.endpoint.InvalidEndpointRequestException;
 
 import java.util.*;
@@ -15,14 +16,11 @@ import java.util.stream.Collectors;
 /**
  * @author MrBird
  */
+@RequiredArgsConstructor
 @FebsEndPoint
 public class FebsMetricsEndpoint {
 
     private final MeterRegistry registry;
-
-    public FebsMetricsEndpoint(MeterRegistry registry) {
-        this.registry = registry;
-    }
 
     public ListNamesResponse listNames() {
         Set<String> names = new LinkedHashSet<>();

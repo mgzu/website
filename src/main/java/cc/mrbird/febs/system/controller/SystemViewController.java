@@ -7,35 +7,30 @@ import cc.mrbird.febs.common.utils.DateUtil;
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.entity.User;
 import cc.mrbird.febs.system.service.IUserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.ExpiredSessionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author MrBird
  */
 @Slf4j
+@RequiredArgsConstructor
 @Controller
-public class SystemViewController extends BaseController implements ErrorController {
+public class SystemViewController extends BaseController {
 
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private ShiroHelper shiroHelper;
+    private final IUserService userService;
+    private final ShiroHelper shiroHelper;
 
     @GetMapping("login")
     public Object login() {
@@ -82,7 +77,6 @@ public class SystemViewController extends BaseController implements ErrorControl
         model.addAttribute("admin_mapping_prefix", FebsConstant.ADMIN_MAPPING_PREFIX);
         return FebsUtil.view("layout");
     }
-
 
     @GetMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "home")
     public String home() {
@@ -183,31 +177,6 @@ public class SystemViewController extends BaseController implements ErrorControl
     @GetMapping("index")
     public String pageIndex() {
         return "index";
-    }
-
-    @Override
-    public String getErrorPath() {
-        return "/error";
-    }
-
-    /**
-     * web 端错误页面
-     */
-    @RequestMapping("error")
-    public String handleError(HttpServletRequest request) {
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        if (status != null) {
-            int statusCode = Integer.parseInt(status.toString());
-            if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                return FebsUtil.webView("error/404");
-            } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-                return FebsUtil.webView("error/403");
-            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return FebsUtil.webView("error/500");
-            }
-            log.error("系统访问异常，状态码：{}", statusCode);
-        }
-        return FebsUtil.webView("error/error");
     }
 
     private void resolveUserModel(String username, Model model, Boolean transform) {

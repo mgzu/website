@@ -3,7 +3,7 @@ package cc.mrbird.febs.common.configure;
 import cc.mrbird.febs.common.properties.FebsProperties;
 import cc.mrbird.febs.common.properties.SwaggerProperties;
 import cc.mrbird.febs.common.xss.XssFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +24,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @author MrBird
  */
+@RequiredArgsConstructor
 @Configuration
 @EnableSwagger2
 public class FebsConfigure {
 
-    @Autowired
-    private FebsProperties properties;
+    private final FebsProperties properties;
 
     @Bean("febsAsyncThreadPool")
     public ThreadPoolTaskExecutor asyncThreadPoolTaskExecutor(){
