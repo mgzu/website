@@ -1,9 +1,10 @@
+"use strict"
 layui.extend({
     conf: 'config',
     api: 'lay/modules/api',
     view: 'lay/modules/view'
 }).define(['conf', 'view', 'api', 'jquery', 'table'], function (exports) {
-    POPUP_DATA = {};
+    var POPUP_DATA = {};
     var conf = layui.conf;
     var layuiTable = layui.table;
     var view = layui.view;
@@ -41,6 +42,14 @@ layui.extend({
         layui.each(layui.conf.style, function (index, url) {
             layui.link(url + '?v=' + conf.v)
         });
+        let renderIndex = self.route.href !== '/' && self.route.href !== conf.entry
+
+        if (renderIndex && conf.viewTabs && conf.indexRequire) {
+            self.initView(layui.router('#' + conf.entry), null, {
+                active: false,
+                unshift: true
+            })
+        }
         self.initView(self.route)
     };
     self.post = function (params) {
@@ -48,7 +57,7 @@ layui.extend({
     };
 
     //初始化视图区域
-    self.initView = function (route) {
+    self.initView = function (route, callback, options) {
         if (!self.route.href || self.route.href === '/') {
             self.route = layui.router('#' + conf.entry);
             route = self.route
@@ -57,8 +66,8 @@ layui.extend({
 
         if ($.inArray(route.fileurl, conf.indPage) === -1) {
             var loadRenderPage = function (params) {
-                if (conf.viewTabs === true) {
-                    view.renderTabs(route)
+                if (conf.viewTabs) {
+                    view.renderTabs(route, callback, options)
                 } else {
                     view.render(route.fileurl)
                 }

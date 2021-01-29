@@ -1,3 +1,4 @@
+"use strict"
 //视图路由
 layui
     .extend({
@@ -67,7 +68,7 @@ layui
                             type: type,
                             data: data,
                             success: function (res) {
-                                templateData = data;
+                                let templateData = data;
                                 renderTemplate(tem, res.data);
                                 if (done) new Function(done)()
                             }
@@ -328,6 +329,11 @@ layui
                         })
                 },
                 del: function (url, backgroundDel) {
+                    if (url === conf.entry && !conf.indexCloseable) {
+                        layer.msg("首页无法关闭")
+                        return
+                    }
+
                     var tab = this;
                     if (tab.data.length <= 1 && backgroundDel === undefined) return;
                     layui.each(tab.data, function (i, data) {
@@ -363,7 +369,7 @@ layui
                     this.isInit = false;
                     $(document).off('click', this.wrap + ' .febs-tabs-btn')
                 },
-                change: function (route, callback) {
+                change: function (route, callback, options) {
                     if (typeof route == 'string') {
                         route = layui.router('#' + route);
                         route.fileurl = '/' + route.path.join('/')
@@ -423,13 +429,19 @@ layui
                             );
                             var params = self.fillHtml(fileurl, htmlElem, 'prepend');
                             route.title = params.title;
-                            tab.data.push(route);
+                            if (options.unshift) {
+                                tab.data.unshift(route)
+                            } else {
+                                tab.data.push(route);
+                            }
                             layui.febs.render(tab.tabMenuTplId);
 
-                            var currentMenu = $(tab.menu + ' ' + lay);
-                            currentMenu.addClass(activeCls);
+                            if (options.active) {
+                                var currentMenu = $(tab.menu + ' ' + lay);
+                                currentMenu.addClass(activeCls);
 
-                            changeView(lay);
+                                changeView(lay);
+                            }
 
                             if ($.isFunction(callback)) callback(params)
                         })
@@ -467,9 +479,9 @@ layui
                 })
             };
             //加载 tab
-            self.renderTabs = function (route, callback) {
+            self.renderTabs = function (route, callback, options) {
                 var tab = self.tab;
-                tab.change(route, callback)
+                tab.change(route, callback, options ? options : {active: true})
             };
             //加载layout文件
             self.renderLayout = function (callback, url) {

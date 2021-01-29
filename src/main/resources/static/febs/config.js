@@ -13,6 +13,8 @@ layui.define(function(exports) {
     engine: '',
     eventName: 'febs-event',
     tableName: 'febs',
-    requestUrl: './'
+    requestUrl: './',
+    indexRequire: true,
+    indexCloseable: false,
   })
 });
