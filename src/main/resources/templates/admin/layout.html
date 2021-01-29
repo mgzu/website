@@ -107,19 +107,20 @@
     <div class="layui-body" id="febs-body"></div>
 </div>
 <script data-th-inline="javascript" type="text/javascript">
-    layui.use(['jquery', 'febs', 'element'], function () {
+    "use strict"
+    layui.use(['jquery', 'febs', 'element', 'conf'], function () {
         var $ = layui.jquery,
             $view = $('#febs-layout'),
-            febs = layui.febs;
-
-        var element = layui.element;
+            febs = layui.febs,
+            conf = layui.conf,
+            element = layui.element;
 
         initTheme();
 
         $view.find('#user-avatar').attr('src', resources + "febs/images/avatar/" + currentUser.avatar);
 
         $view.on('click', '.layui-logo', function () {
-            febs.navigate("/index");
+            febs.navigate(conf.entry);
         });
 
         $view.on('click', '#password-update', function () {
