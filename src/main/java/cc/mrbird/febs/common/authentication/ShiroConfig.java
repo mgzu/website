@@ -9,6 +9,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -22,11 +23,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.Base64Utils;
 
+import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 /**
  * Shiro 配置类
@@ -84,7 +83,14 @@ public class ShiroConfig {
         // 未授权 url
         shiroFilterFactoryBean.setUnauthorizedUrl(febsProperties.getShiro().getUnauthorizedUrl());
 
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        LogoutFilter logoutFilter = new LogoutFilter();
+        logoutFilter.setRedirectUrl(febsProperties.getShiro().getLoginUrl());
+        filters.put("logout", logoutFilter);
+
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        // 配置退出过滤器，其中具体的退出代码 Shiro已经替我们实现了
+        filterChainDefinitionMap.put(febsProperties.getShiro().getLogoutUrl(), "logout");
         // 设置免认证 url
         String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(febsProperties.getShiro().getAnonUrl(), ",");
         for (String url : anonUrls) {
@@ -94,8 +100,6 @@ public class ShiroConfig {
         for (String url : authcs) {
             filterChainDefinitionMap.put(url, "authc");
         }
-        // 配置退出过滤器，其中具体的退出代码 Shiro已经替我们实现了
-        filterChainDefinitionMap.put(febsProperties.getShiro().getLogoutUrl(), "logout");
         // 除上以外所有 url都必须认证通过才可以访问，未通过认证自动访问 LoginUrl
         filterChainDefinitionMap.put("/**", "anon");
 

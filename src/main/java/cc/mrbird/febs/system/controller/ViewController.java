@@ -3,6 +3,7 @@ package cc.mrbird.febs.system.controller;
 import cc.mrbird.febs.common.authentication.ShiroHelper;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsConstant;
+import cc.mrbird.febs.common.properties.FebsProperties;
 import cc.mrbird.febs.common.utils.DateUtil;
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.system.entity.User;
@@ -26,11 +27,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @RequiredArgsConstructor
-@Controller
-public class SystemViewController extends BaseController {
+@Controller("system/ViewController")
+public class ViewController extends BaseController {
 
     private final IUserService userService;
     private final ShiroHelper shiroHelper;
+    private final FebsProperties febsProperties;
 
     @GetMapping("login")
     public Object login() {
@@ -55,11 +57,6 @@ public class SystemViewController extends BaseController {
         return FebsUtil.view("error/403");
     }
 
-    @GetMapping("/")
-    public String redirectIndex() {
-        return "redirect:/index";
-    }
-
     @GetMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "index")
     public String index(Model model) {
         AuthorizationInfo authorizationInfo = shiroHelper.getCurrentuserAuthorizationInfo();
@@ -75,6 +72,7 @@ public class SystemViewController extends BaseController {
     @GetMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "layout")
     public String layout(Model model) {
         model.addAttribute("admin_mapping_prefix", FebsConstant.ADMIN_MAPPING_PREFIX);
+        model.addAttribute("logoutUrl", febsProperties.getShiro().getLogoutUrl());
         return FebsUtil.view("layout");
     }
 
@@ -169,14 +167,6 @@ public class SystemViewController extends BaseController {
     @GetMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "500")
     public String adminError500() {
         return FebsUtil.view("error/500");
-    }
-
-    /**
-     * web 端 index 页面
-     */
-    @GetMapping("index")
-    public String pageIndex() {
-        return "index";
     }
 
     private void resolveUserModel(String username, Model model, Boolean transform) {
