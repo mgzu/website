@@ -42,7 +42,11 @@ layui.extend({
         layui.each(layui.conf.style, function (index, url) {
             layui.link(url + '?v=' + conf.v)
         });
-        let renderIndex = self.route.href !== '/' && self.route.href !== conf.entry
+
+        let renderIndex = false
+        if (self.route.href) {
+            renderIndex = self.route.href !== '/' && self.route.href !== conf.entry
+        }
 
         if (renderIndex && conf.viewTabs && conf.indexRequire) {
             self.initView(layui.router('#' + conf.entry), null, {
