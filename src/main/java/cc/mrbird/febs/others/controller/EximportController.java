@@ -1,6 +1,7 @@
 package cc.mrbird.febs.others.controller;
 
 import cc.mrbird.febs.common.controller.BaseController;
+import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
@@ -35,7 +36,7 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 @RestController
-@RequestMapping("eximport")
+@RequestMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "eximport")
 public class EximportController extends BaseController {
 
     @Autowired
