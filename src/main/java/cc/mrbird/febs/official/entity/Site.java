@@ -1,12 +1,31 @@
+/*
+ *    Copyright 2021 [website of copyright mrbird & mgzu]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package cc.mrbird.febs.official.entity;
 
 import java.util.Date;
 
-import lombok.Data;
+import cc.mrbird.febs.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 站点管理 Entity
@@ -14,9 +33,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author mgzu
  * @date 2019-09-22 21:06:36
  */
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = true)
 @TableName("t_site")
-public class Site {
+public class Site extends BaseEntity {
 
     /**
      * 站点编号
