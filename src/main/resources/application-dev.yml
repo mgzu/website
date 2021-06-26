@@ -9,7 +9,7 @@ spring:
       max-lifetime: 1800000
       max-pool-size: 15
       min-idle: 5
-      connection-test-query: select 1
+      connection-test-query: select 1 from dual
       pool-name: HikariCP
 
   redis:
@@ -36,4 +36,9 @@ spring:
 
 logging:
   level:
-    cc.mrbird.febs.common.handler: debug
+    cc:
+      mrbird:
+        febs:
+          common:
+            handler: debug
+            poi: debug
