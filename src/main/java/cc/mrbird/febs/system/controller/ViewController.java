@@ -60,9 +60,9 @@ public class ViewController extends BaseController {
     @GetMapping(FebsConstant.ADMIN_MAPPING_PREFIX + "index")
     public String index(Model model) {
         AuthorizationInfo authorizationInfo = shiroHelper.getCurrentuserAuthorizationInfo();
-        User user = super.getCurrentUser();
+        User user = userService.findByName(super.getCurrentUser().getUsername());
         user.setPassword("It's a secret");
-        model.addAttribute("user", userService.findByName(user.getUsername())); // 获取实时的用户信息
+        model.addAttribute("user", user); // 获取实时的用户信息
         model.addAttribute("permissions", authorizationInfo.getStringPermissions());
         model.addAttribute("roles", authorizationInfo.getRoles());
         model.addAttribute("admin_mapping_prefix", FebsConstant.ADMIN_MAPPING_PREFIX);
