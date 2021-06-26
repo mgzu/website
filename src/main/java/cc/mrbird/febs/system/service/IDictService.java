@@ -14,20 +14,16 @@
  *    limitations under the License.
  */
 
-package cc.mrbird.febs.common.annotation;
+package cc.mrbird.febs.system.service;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import cc.mrbird.febs.system.entity.DictDetail;
 
 /**
- * @author MrBird
+ * @author mgzu
+ * @since 2021-06-25
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ControllerEndpoint {
-    String value() default "";
+public interface IDictService {
+    DictDetail selectDictByKeyAndLabel(String key, String label);
 
-    String exceptionMessage() default "系统内部异常";
+    DictDetail selectDictByKeyAndValue(String key, String value);
 }

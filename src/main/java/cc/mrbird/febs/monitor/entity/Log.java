@@ -1,12 +1,12 @@
 package cc.mrbird.febs.monitor.entity;
 
-import cc.mrbird.febs.common.converter.TimeConverter;
+import cc.mrbird.febs.common.annotation.Excel;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wuwenze.poi.annotation.Excel;
-import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,56 +32,57 @@ public class Log implements Serializable {
      * 操作用户
      */
     @TableField("USERNAME")
-    @ExcelField(value = "操作用户")
+    @ExcelProperty(value = "操作用户")
     private String username;
 
     /**
      * 操作内容
      */
     @TableField("OPERATION")
-    @ExcelField(value = "操作内容")
+    @ExcelProperty(value = "操作内容")
     private String operation;
 
     /**
      * 耗时
      */
     @TableField("TIME")
-    @ExcelField(value = "耗时（毫秒）")
+    @ExcelProperty(value = "耗时（毫秒）")
     private Long time;
 
     /**
      * 操作方法
      */
     @TableField("METHOD")
-    @ExcelField(value = "操作方法")
+    @ExcelProperty(value = "操作方法")
     private String method;
 
     /**
      * 方法参数
      */
     @TableField("PARAMS")
-    @ExcelField(value = "方法参数")
+    @ExcelProperty(value = "方法参数")
     private String params;
 
     /**
      * 操作者IP
      */
     @TableField("IP")
-    @ExcelField(value = "操作者IP")
+    @ExcelProperty(value = "操作者IP")
     private String ip;
 
     /**
      * 创建时间
      */
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("CREATE_TIME")
-    @ExcelField(value = "操作时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "操作时间")
     private Date createTime;
 
     /**
      * 操作地点
      */
     @TableField("LOCATION")
-    @ExcelField(value = "操作地点")
+    @ExcelProperty(value = "操作地点")
     private String location;
 
     private transient String createTimeFrom;

@@ -7,3 +7,4 @@ src/main/resources/application-devol.yml
 # Maven #
 target/
 log/
+/TODO.md

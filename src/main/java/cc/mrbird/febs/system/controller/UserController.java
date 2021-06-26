@@ -6,11 +6,11 @@ import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.common.utils.MD5Util;
 import cc.mrbird.febs.system.entity.User;
 import cc.mrbird.febs.system.service.IUserService;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -94,12 +94,12 @@ public class UserController extends BaseController {
     public FebsResponse updatePassword(
             @NotBlank(message = "{required}") String oldPassword,
             @NotBlank(message = "{required}") String newPassword) throws FebsException {
-            User user = getCurrentUser();
-            if (!StringUtils.equals(user.getPassword(), MD5Util.encrypt(user.getUsername(), oldPassword))) {
-                throw new FebsException("原密码不正确");
-            }
-            userService.updatePassword(user.getUsername(), newPassword);
-            return new FebsResponse().success();
+        User user = getCurrentUser();
+        if (!StringUtils.equals(user.getPassword(), MD5Util.encrypt(user.getUsername(), oldPassword))) {
+            throw new FebsException("原密码不正确");
+        }
+        userService.updatePassword(user.getUsername(), newPassword);
+        return new FebsResponse().success();
     }
 
     @GetMapping("avatar/{image}")
@@ -147,7 +147,7 @@ public class UserController extends BaseController {
     public void export(QueryRequest queryRequest, User user, HttpServletResponse response) throws FebsException {
         try {
             List<User> users = this.userService.findUserDetail(user, queryRequest).getRecords();
-            ExcelKit.$Export(User.class, response).downXlsx(users, false);
+            ExcelUtil.doExport(User.class, response, users);
         } catch (Exception e) {
             String message = "导出Excel失败";
             log.error(message, e);

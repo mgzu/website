@@ -1,12 +1,15 @@
 package cc.mrbird.febs.system.entity;
 
-import cc.mrbird.febs.common.converter.TimeConverter;
+import cc.mrbird.febs.common.annotation.Dict;
+import cc.mrbird.febs.common.annotation.Excel;
+import cc.mrbird.febs.common.converter.DictConverter;
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wuwenze.poi.annotation.Excel;
-import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -40,6 +43,7 @@ public class Menu implements Serializable {
     /**
      * 上级菜单ID
      */
+    @ExcelIgnore
     @TableField("PARENT_ID")
     private Long parentId;
 
@@ -49,7 +53,7 @@ public class Menu implements Serializable {
     @TableField("MENU_NAME")
     @NotBlank(message = "{required}")
     @Size(max = 10, message = "{noMoreThan}")
-    @ExcelField(value = "名称")
+    @ExcelProperty(value = "名称")
     private String menuName;
 
     /**
@@ -57,7 +61,7 @@ public class Menu implements Serializable {
      */
     @TableField("URL")
     @Size(max = 50, message = "{noMoreThan}")
-    @ExcelField(value = "URL")
+    @ExcelProperty(value = "URL")
     private String url;
 
     /**
@@ -65,7 +69,7 @@ public class Menu implements Serializable {
      */
     @TableField("PERMS")
     @Size(max = 50, message = "{noMoreThan}")
-    @ExcelField(value = "权限")
+    @ExcelProperty(value = "权限")
     private String perms;
 
     /**
@@ -73,15 +77,16 @@ public class Menu implements Serializable {
      */
     @TableField("ICON")
     @Size(max = 50, message = "{noMoreThan}")
-    @ExcelField(value = "图标")
+    @ExcelProperty(value = "图标")
     private String icon;
 
     /**
      * 类型 0菜单 1按钮
      */
+    @Dict("MENU_TYPE")
     @TableField("TYPE")
     @NotBlank(message = "{required}")
-    @ExcelField(value = "类型", writeConverterExp = "0=按钮,1=菜单")
+    @ExcelProperty(value = "类型", converter = DictConverter.class)
     private String type;
 
     /**
@@ -93,15 +98,17 @@ public class Menu implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("CREATE_TIME")
-    @ExcelField(value = "创建时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "创建时间")
     private Date createTime;
 
     /**
      * 修改时间
      */
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("MODIFY_TIME")
-    @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "修改时间")
     private Date modifyTime;
 
 

@@ -3,18 +3,15 @@ package cc.mrbird.febs.others.controller;
 import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
+import cc.mrbird.febs.common.entity.ImportExcelResult;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.others.entity.Eximport;
 import cc.mrbird.febs.others.service.IEximportService;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.wuwenze.poi.ExcelKit;
-import com.wuwenze.poi.handler.ExcelReadHandler;
-import com.wuwenze.poi.pojo.ExcelErrorField;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -54,7 +49,7 @@ public class EximportController extends BaseController {
      */
     @GetMapping("template")
     @RequiresPermissions("eximport:template")
-    public void generateImportTemplate(HttpServletResponse response) {
+    public void generateImportTemplate(HttpServletResponse response) throws IOException {
         // 构建数据
         List<Eximport> list = new ArrayList<>();
         IntStream.range(0, 20).forEach(i -> {
@@ -65,7 +60,7 @@ public class EximportController extends BaseController {
             list.add(eximport);
         });
         // 构建模板
-        ExcelKit.$Export(Eximport.class, response).downXlsx(list, true);
+        ExcelUtil.doExport(Eximport.class, response, list);
     }
 
     /**
@@ -84,30 +79,11 @@ public class EximportController extends BaseController {
             }
             // 开始导入操作
             Stopwatch stopwatch = Stopwatch.createStarted();
-            final List<Eximport> data = Lists.newArrayList();
-            final List<Map<String, Object>> error = Lists.newArrayList();
-            ExcelKit.$Import(Eximport.class).readXlsx(file.getInputStream(), new ExcelReadHandler<Eximport>() {
-                @Override
-                public void onSuccess(int sheet, int row, Eximport eximport) {
-                    // 数据校验成功时，加入集合
-                    eximport.setCreateTime(new Date());
-                    data.add(eximport);
-                }
+            ImportExcelResult importExcelResult = eximportService.importExcel(file.getInputStream());
 
-                @Override
-                public void onError(int sheet, int row, List<ExcelErrorField> errorFields) {
-                    // 数据校验失败时，记录到 error集合
-                    error.add(ImmutableMap.of("row", row, "errorFields", errorFields));
-                }
-            });
-            if (CollectionUtils.isNotEmpty(data)) {
-                // 将合法的记录批量入库
-                this.eximportService.batchInsert(data);
-            }
             ImmutableMap<String, Object> result = ImmutableMap.of(
                     "time", stopwatch.stop().toString(),
-                    "data", data,
-                    "error", error
+                    "error", importExcelResult.getErrorMessages()
             );
             return new FebsResponse().success().data(result);
         } catch (Exception e) {
@@ -122,7 +98,7 @@ public class EximportController extends BaseController {
     public void export(QueryRequest queryRequest, Eximport eximport, HttpServletResponse response) throws FebsException {
         try {
             List<Eximport> eximports = this.eximportService.findEximports(queryRequest, eximport).getRecords();
-            ExcelKit.$Export(Eximport.class, response).downXlsx(eximports, false);
+            ExcelUtil.doExport(Eximport.class, response, eximports);
         } catch (Exception e) {
             String message = "导出Excel失败";
             log.error(message, e);

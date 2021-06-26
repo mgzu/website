@@ -12,35 +12,17 @@
             <div class="layui-card">
                 <script type="text/html" template>
                     {{#
-                    var successL = POPUP_DATA.data.length;
+                    var POPUP_DATA = layui.febs.POPUP_DATA;
                     var failL = POPUP_DATA.error.length;
                     var time = POPUP_DATA.time;
-                    if(successL === 0 && failL === 0) {
+                    if(failL === 0) {
                     }}
-                    <span class="febs-alert-base febs-alert-info">暂无导入记录</span>
+                    <span class="febs-alert-base febs-alert-info">导入成功</span>
                     {{#
-                    } else if (successL !== 0 && failL === 0) {
-                    }}
-                    <span class="febs-alert-base febs-alert-success">
-                        全部导入成功，共导入
-                        <a class="bold"> {{successL}} </a>条记录，
-                        耗时 <span class="bold">{{time}}</span>
-                    </span>
-                    {{#
-                    } else if (successL === 0 && failL !== 0) {
+                    } else {
                     }}
                     <span class="febs-alert-base febs-alert-error">
-                        全部导入失败，共
-                        <a class="bold"> {{failL}} </a>条记录，
-                        耗时 <span class="bold">{{time}}</span>
-                    </span>
-                    {{#
-                    } else  {
-                    }}
-                    <span class="febs-alert-base febs-alert-warn">
-                        部分导入成功，导入成功
-                        <a class="bold"> {{successL}} </a>条记录，
-                        导入失败
+                        导入失败，共
                         <a class="bold"> {{failL}} </a>条记录，
                         耗时 <span class="bold">{{time}}</span>
                     </span>
@@ -48,7 +30,7 @@
                 </script>
                 <div class="layui-tab layui-tab-brief" lay-filter="result-tab">
                     <ul class="layui-tab-title">
-                        <li class="layui-this" lay-id="success-tab">成功记录</li>
+                        <li class="layui-this" lay-id="success-tab">全部成功</li>
                         <li lay-id="fail-tab">失败记录</li>
                     </ul>
                     <div class="layui-tab-content">
@@ -71,12 +53,12 @@
     <span>第{{ d.cellIndex + 1 }}列</span>
 </script>
 <script data-th-inline="none" type="text/javascript">
-    layui.use(['jquery', 'table', 'upload'], function () {
+    layui.use(['jquery', 'table', 'upload', 'febs'], function () {
         var $ = layui.jquery,
             table = layui.table,
             element = layui.element,
             $view = $('#febs-eximport-result'),
-            result = POPUP_DATA;
+            result = layui.febs.POPUP_DATA;
 
         initTabs();
 
@@ -100,11 +82,7 @@
         function renderFailTable() {
             var data = [];
             layui.each(result.error, function (key, item) {
-                var row = item.row;
-                layui.each(item.errorFields, function (k, v) {
-                    v.row = row;
-                    data.push(v);
-                });
+                data.push(item);
             });
             table.render({
                 elem: '#failTable',
@@ -114,25 +92,20 @@
                 limits: [6, 10, 20, 100],
                 limit: 6,
                 cols: [[
-                    {title: '行', templet: '#fail-row'},
-                    {title: '列', templet: '#fail-column'},
-                    {field: 'column', title: '列名'},
-                    {field: 'name', title: '对应字段'},
-                    {field: 'errorMessage', title: '错误信息', maxlength: 400}
+                    {field: 'column', title: '列名', maxlength: 150},
+                    {field: 'name', title: '对应字段', maxlength: 150},
+                    {field: 'errorMessage', title: '错误信息'}
                 ]]
             });
         }
 
         function initTabs() {
-            if (result.data.length !== 0 && result.error.length === 0) {
+            if (result.error.length === 0) {
                 renderSuccessTable();
                 element.tabDelete('result-tab', 'fail-tab');
-            } else if (result.data.length === 0 && result.error.length !== 0) {
+            } else {
                 renderFailTable();
                 element.tabDelete('result-tab', 'success-tab');
-            } else {
-                renderSuccessTable();
-                renderFailTable();
             }
         }
 

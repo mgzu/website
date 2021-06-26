@@ -14,20 +14,39 @@
  *    limitations under the License.
  */
 
-package cc.mrbird.febs.common.annotation;
+package cc.mrbird.febs.system.enums;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * @author MrBird
+ * @author mgzu
+ * @since 2021-06-26
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ControllerEndpoint {
-    String value() default "";
+@Getter
+public enum DictDataType {
+    /**
+     * 整数
+     */
+    INTEGER(1),
+    /**
+     * 小数
+     */
+    DECIMAL(2),
+    /**
+     * 布尔值
+     */
+    BOOLEAN(3),
+    /**
+     * 字符串
+     */
+    STRING(4);
 
-    String exceptionMessage() default "系统内部异常";
+    DictDataType(int code) {
+        this.code = code;
+    }
+
+    @Setter
+    private int code;
+
 }

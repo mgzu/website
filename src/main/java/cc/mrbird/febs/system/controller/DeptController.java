@@ -7,10 +7,10 @@ import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.system.entity.Dept;
 import cc.mrbird.febs.system.service.IDeptService;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -79,8 +80,8 @@ public class DeptController {
     @ControllerEndpoint(exceptionMessage = "导出Excel失败")
     @GetMapping("excel")
     @RequiresPermissions("dept:export")
-    public void export(Dept dept, QueryRequest request, HttpServletResponse response) {
+    public void export(Dept dept, QueryRequest request, HttpServletResponse response) throws IOException {
         List<Dept> depts = this.deptService.findDepts(dept, request);
-        ExcelKit.$Export(Dept.class, response).downXlsx(depts, false);
+        ExcelUtil.doExport(Dept.class, response, depts);
     }
 }

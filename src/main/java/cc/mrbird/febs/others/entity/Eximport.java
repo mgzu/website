@@ -1,47 +1,48 @@
 package cc.mrbird.febs.others.entity;
 
+import cc.mrbird.febs.common.annotation.Excel;
+import cc.mrbird.febs.common.entity.BaseEntity;
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wuwenze.poi.annotation.Excel;
-import com.wuwenze.poi.annotation.ExcelField;
-import com.wuwenze.poi.validator.EmailValidator;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import java.util.Date;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 导入导出测试，Eximport = export + import
  *
  * @author MrBird
  */
-@Data
+@Setter
+@Getter
+@EqualsAndHashCode(callSuper = true)
 @TableName("t_eximport")
 @Excel("测试导入导出数据")
-public class Eximport {
+public class Eximport extends BaseEntity {
 
     /**
      * 字段1
      */
-    @ExcelField(value = "字段1", required = true, maxLength = 20,
-            comment = "提示：必填，长度不能超过20个字符")
+    @Length(max = 20)
+    @NotBlank
+    @ExcelProperty("字段1")
     private String field1;
 
     /**
      * 字段2
      */
-    @ExcelField(value = "字段2", required = true, maxLength = 11, regularExp = "[0-9]+",
-            regularExpMessage = "必须是数字", comment = "提示: 必填，只能填写数字，并且长度不能超过11位")
+    @ExcelProperty("字段2")
     private Integer field2;
 
     /**
      * 字段3
      */
-    @ExcelField(value = "字段3", required = true, maxLength = 50,
-            comment = "提示：必填，只能填写邮箱，长度不能超过50个字符", validator = EmailValidator.class)
+    @Email
+    @ExcelProperty("字段3")
     private String field3;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
 
 }

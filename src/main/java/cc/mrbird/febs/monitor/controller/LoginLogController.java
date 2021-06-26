@@ -5,11 +5,10 @@ import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.common.exception.FebsException;
-import cc.mrbird.febs.monitor.entity.Log;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.monitor.entity.LoginLog;
 import cc.mrbird.febs.monitor.service.ILoginLogService;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +59,7 @@ public class LoginLogController extends BaseController {
     public void export(QueryRequest request, LoginLog loginLog, HttpServletResponse response) throws FebsException {
         try {
             List<LoginLog> loginLogs = this.loginLogService.findLoginLogs(loginLog, request).getRecords();
-            ExcelKit.$Export(LoginLog.class, response).downXlsx(loginLogs, false);
+            ExcelUtil.doExport(LoginLog.class, response, loginLogs);
         } catch (Exception e) {
             String message = "导出Excel失败";
             log.error(message, e);

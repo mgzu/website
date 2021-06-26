@@ -14,20 +14,21 @@
  *    limitations under the License.
  */
 
-package cc.mrbird.febs.common.annotation;
+package cc.mrbird.febs.common.poi;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * @author MrBird
+ * @author mgzu
+ * @since 2021-06-26
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ControllerEndpoint {
-    String value() default "";
-
-    String exceptionMessage() default "系统内部异常";
+@Builder
+@Setter
+@Getter
+public class ExcelFailureMessage {
+    private String name;
+    private String column;
+    private String errorMessage;
 }

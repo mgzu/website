@@ -1,13 +1,13 @@
 package cc.mrbird.febs.monitor.entity;
 
-import cc.mrbird.febs.common.converter.TimeConverter;
+import cc.mrbird.febs.common.annotation.Excel;
 import cc.mrbird.febs.common.utils.HttpContextUtil;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wuwenze.poi.annotation.Excel;
-import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,39 +36,40 @@ public class LoginLog implements Serializable {
      * 登录用户
      */
     @TableField("USERNAME")
-    @ExcelField("登录用户")
+    @ExcelProperty("登录用户")
     private String username;
 
     /**
      * 登录时间
      */
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("LOGIN_TIME")
-    @ExcelField(value = "登录时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "登录时间")
     private Date loginTime;
 
     /**
      * 登录地点
      */
     @TableField("LOCATION")
-    @ExcelField(value = "登录地点")
+    @ExcelProperty(value = "登录地点")
     private String location;
     /**
      * 登录 IP
      */
     @TableField("IP")
-    @ExcelField("登录IP")
+    @ExcelProperty("登录IP")
     private String ip;
     /**
      * 操作系统
      */
     @TableField("`SYSTEM`")
-    @ExcelField("操作系统")
+    @ExcelProperty("操作系统")
     private String system;
     /**
      * 登录浏览器
      */
     @TableField("BROWSER")
-    @ExcelField("登录浏览器")
+    @ExcelProperty("登录浏览器")
     private String browser;
 
     private transient String loginTimeFrom;

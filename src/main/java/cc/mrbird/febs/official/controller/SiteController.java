@@ -1,6 +1,7 @@
 package cc.mrbird.febs.official.controller;
 
 import cc.mrbird.febs.common.annotation.ControllerEndpoint;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.common.utils.FebsUtil;
 import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.controller.BaseController;
@@ -8,7 +9,6 @@ import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.official.entity.Site;
 import cc.mrbird.febs.official.service.ISiteService;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -90,8 +91,8 @@ public class SiteController extends BaseController {
     @PostMapping("site/excel")
     @ResponseBody
     @RequiresPermissions("site:export")
-    public void export(QueryRequest queryRequest, Site site, HttpServletResponse response) {
+    public void export(QueryRequest queryRequest, Site site, HttpServletResponse response) throws IOException {
         List<Site> sites = this.siteService.findSites(queryRequest, site).getRecords();
-        ExcelKit.$Export(Site.class, response).downXlsx(sites, false);
+        ExcelUtil.doExport(Site.class, response, sites);
     }
 }

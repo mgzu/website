@@ -7,10 +7,10 @@ import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.MenuTree;
 import cc.mrbird.febs.common.exception.FebsException;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.system.entity.Menu;
 import cc.mrbird.febs.system.entity.User;
 import cc.mrbird.febs.system.service.IMenuService;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -76,8 +77,8 @@ public class MenuController extends BaseController {
     @ControllerEndpoint(exceptionMessage = "导出 Excel 失败")
     @GetMapping("excel")
     @RequiresPermissions("menu:export")
-    public void export(Menu menu, HttpServletResponse response) {
+    public void export(Menu menu, HttpServletResponse response) throws IOException {
         List<Menu> menus = this.menuService.findMenuList(menu);
-        ExcelKit.$Export(Menu.class, response).downXlsx(menus, false);
+        ExcelUtil.doExport(Menu.class, response, menus);
     }
 }

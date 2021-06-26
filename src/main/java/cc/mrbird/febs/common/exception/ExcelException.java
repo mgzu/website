@@ -14,20 +14,14 @@
  *    limitations under the License.
  */
 
-package cc.mrbird.febs.common.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package cc.mrbird.febs.common.exception;
 
 /**
- * @author MrBird
+ * @author mgzu
+ * @since 2021-06-26
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ControllerEndpoint {
-    String value() default "";
-
-    String exceptionMessage() default "系统内部异常";
+public class ExcelException extends FebsException {
+    public ExcelException(String message) {
+        super(message);
+    }
 }

@@ -1,12 +1,12 @@
 package cc.mrbird.febs.system.entity;
 
-import cc.mrbird.febs.common.converter.TimeConverter;
+import cc.mrbird.febs.common.annotation.Excel;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.wuwenze.poi.annotation.Excel;
-import com.wuwenze.poi.annotation.ExcelField;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -41,7 +41,7 @@ public class Dept implements Serializable {
     @TableField("DEPT_NAME")
     @NotBlank(message = "{required}")
     @Size(max = 10, message = "{noMoreThan}")
-    @ExcelField(value = "部门名称")
+    @ExcelProperty(value = "部门名称")
     private String deptName;
 
     /**
@@ -53,12 +53,14 @@ public class Dept implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("CREATE_TIME")
-    @ExcelField(value = "创建时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "创建时间")
     private Date createTime;
 
+    @DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     @TableField("MODIFY_TIME")
-    @ExcelField(value = "修改时间", writeConverter = TimeConverter.class)
+    @ExcelProperty(value = "修改时间")
     private Date modifyTime;
 
 }

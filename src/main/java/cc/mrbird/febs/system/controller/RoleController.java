@@ -6,9 +6,9 @@ import cc.mrbird.febs.common.controller.BaseController;
 import cc.mrbird.febs.common.entity.FebsConstant;
 import cc.mrbird.febs.common.entity.FebsResponse;
 import cc.mrbird.febs.common.entity.QueryRequest;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.system.entity.Role;
 import cc.mrbird.febs.system.service.IRoleService;
-import com.wuwenze.poi.ExcelKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -70,9 +71,9 @@ public class RoleController extends BaseController {
     @ControllerEndpoint(exceptionMessage = "导出 Excel 失败")
     @GetMapping("excel")
     @RequiresPermissions("role:export")
-    public void export(QueryRequest queryRequest, Role role, HttpServletResponse response) {
+    public void export(QueryRequest queryRequest, Role role, HttpServletResponse response) throws IOException {
         List<Role> roles = this.roleService.findRoles(role, queryRequest).getRecords();
-        ExcelKit.$Export(Role.class, response).downXlsx(roles, false);
+        ExcelUtil.doExport(Role.class, response, roles);
     }
 
 }

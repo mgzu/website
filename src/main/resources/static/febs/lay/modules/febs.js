@@ -4,7 +4,6 @@ layui.extend({
     api: 'lay/modules/api',
     view: 'lay/modules/view'
 }).define(['conf', 'view', 'api', 'jquery', 'table'], function (exports) {
-    var POPUP_DATA = {};
     var conf = layui.conf;
     var layuiTable = layui.table;
     var view = layui.view;
@@ -16,6 +15,7 @@ layui.extend({
     var self = {};
     var windowWidth = $(window).width();
 
+    self.POPUP_DATA = {};
     conf.viewTabs = currentUser.isTab === '1';
     self.route = layui.router();
     self.view = view;
@@ -164,7 +164,7 @@ layui.extend({
         var success = params.success || function () {
         };
         params.skin = 'layui-layer-admin-page';
-        POPUP_DATA = params.data || {};
+        self.POPUP_DATA = params.data || {};
         var defaultParams = {
             type: 1,
             area: $(window).width() <= 750 ? ['90%', '90%'] : ['60%', '90%'],

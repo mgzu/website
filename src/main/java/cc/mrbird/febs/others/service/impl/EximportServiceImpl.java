@@ -1,6 +1,8 @@
 package cc.mrbird.febs.others.service.impl;
 
+import cc.mrbird.febs.common.entity.ImportExcelResult;
 import cc.mrbird.febs.common.entity.QueryRequest;
+import cc.mrbird.febs.common.utils.ExcelUtil;
 import cc.mrbird.febs.others.entity.Eximport;
 import cc.mrbird.febs.others.mapper.EximportMapper;
 import cc.mrbird.febs.others.service.IEximportService;
@@ -12,8 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.List;
+import java.io.InputStream;
 
 /**
  * @author MrBird
@@ -32,28 +35,16 @@ public class EximportServiceImpl extends ServiceImpl<EximportMapper, Eximport> i
         return this.page(page, null);
     }
 
-    @Override
     @Transactional
-    public void batchInsert(List<Eximport> list) {
-        int total = list.size();
-        int max = batchInsertMaxNum;
-        int count = total / max;
-        int left = total % max;
-        int length;
-        if (left == 0) length = count;
-        else length = count + 1;
-        for (int i = 0; i < length; i++) {
-            int start = max * i;
-            int end = max * (i + 1);
-            if (i != count) {
-                log.info("正在插入第" + (start + 1) + " ~ " + end + "条记录 ······");
-                saveBatch(list, end);
-            } else {
-                end = total;
-                log.info("正在插入第" + (start + 1) + " ~ " + end + "条记录 ······");
-                saveBatch(list, end);
-            }
+    @Override
+    public ImportExcelResult importExcel(InputStream inputStream) {
+        ImportExcelResult importExcelResult = ExcelUtil.doImport(inputStream, Eximport.class, this);
+
+        if (importExcelResult.isRollback()) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.debug("rollback import data");
         }
+        return importExcelResult;
     }
 
 }

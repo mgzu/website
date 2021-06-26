@@ -1,12 +1,13 @@
 package cc.mrbird.febs.others.service;
 
 
+import cc.mrbird.febs.common.entity.ImportExcelResult;
 import cc.mrbird.febs.common.entity.QueryRequest;
 import cc.mrbird.febs.others.entity.Eximport;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import java.util.List;
+import java.io.InputStream;
 
 /**
  * @author MrBird
@@ -21,12 +22,13 @@ public interface IEximportService extends IService<Eximport> {
      */
     IPage<Eximport> findEximports(QueryRequest request, Eximport eximport);
 
-
     /**
-     * 批量插入
+     * 使用 Service 导入 excel，纳入事物范围
+     * 当全部导入成功时才算成功，否则，出现异常时，回滚数据，返回所有错误信息
      *
-     * @param list List<Eximport>
+     * @param inputStream
+     * @return
      */
-    void batchInsert(List<Eximport> list);
+    ImportExcelResult importExcel(InputStream inputStream);
 
 }
