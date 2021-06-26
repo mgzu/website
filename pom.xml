@@ -25,7 +25,6 @@
         <knife4j.version>3.0.2</knife4j.version>
         <freemarker.version>2.3.28</freemarker.version>
         <p6spy.version>3.8.3</p6spy.version>
-        <shiro.version>1.7.1</shiro.version>
     </properties>
 
     <dependencies>
@@ -65,49 +64,38 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- Spring end -->
 
-        <!-- mybatis plus begin-->
+        <!-- MyBatis增强插件 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis.plus.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.4.1</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- mybatis plus end-->
 
-        <!-- freemarker 模板引擎，用于定义代码生成模板 -->
+        <!-- freemaker 模板引擎，用于定义代码生成模板 -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
         </dependency>
 
-        <!-- database begin -->
+        <!-- mysql驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- database end -->
 
-        <!-- shiro begin -->
-        <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
+        <!-- shiro -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
+            <version>1.4.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.crazycake/shiro-redis -->
         <dependency>
             <groupId>org.crazycake</groupId>
             <artifactId>shiro-redis</artifactId>
-            <version>3.3.1</version>
+            <version>3.2.2</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.puppycrawl.tools</groupId>
@@ -120,22 +108,19 @@
             <artifactId>thymeleaf-extras-shiro</artifactId>
             <version>2.0.0</version>
         </dependency>
-        <!-- shiro end -->
 
         <!-- IP定位插件 -->
-        <!-- https://mvnrepository.com/artifact/org.lionsoul/ip2region -->
         <dependency>
             <groupId>org.lionsoul</groupId>
             <artifactId>ip2region</artifactId>
-            <version>1.7.2</version>
+            <version>1.7</version>
         </dependency>
 
-        <!-- tools begin -->
+        <!-- commons工具 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -148,12 +133,14 @@
             <version>29.0-jre</version>
         </dependency>
 
+        <!-- 验证码生成插件 -->
         <dependency>
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
             <version>1.6.2</version>
         </dependency>
 
+        <!-- xss过滤 -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -202,26 +189,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- test tools end -->
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>dev</id>
-        </profile>
-        <profile>
-            <id>prod</id>
-        </profile>
-        <profile>
-            <id>test</id>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
