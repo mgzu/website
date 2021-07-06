@@ -60,7 +60,7 @@ public class SiteController extends BaseController {
         return new FebsResponse().success().data(dataTable);
     }
 
-    @ControllerEndpoint(value = "新增 Site", exceptionMessage = "新增 Site 失败")
+    @ControllerEndpoint(value = "新增 Site", exceptionMessage = "新增站点信息失败")
     @PostMapping("site")
     @ResponseBody
     @RequiresPermissions("site:add")
@@ -69,7 +69,7 @@ public class SiteController extends BaseController {
         return new FebsResponse().success();
     }
 
-    @ControllerEndpoint(value = "删除 Site", exceptionMessage = "删除 Site 失败")
+    @ControllerEndpoint(value = "删除 Site", exceptionMessage = "删除站点信息失败")
     @GetMapping("site/delete")
     @ResponseBody
     @RequiresPermissions("site:delete")
@@ -78,7 +78,7 @@ public class SiteController extends BaseController {
         return new FebsResponse().success();
     }
 
-    @ControllerEndpoint(value = "修改 Site", exceptionMessage = "修改 Site 失败")
+    @ControllerEndpoint(value = "修改 Site", exceptionMessage = "修改站点信息失败")
     @PostMapping("site/update")
     @ResponseBody
     @RequiresPermissions("site:update")
