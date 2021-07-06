@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : official
  Source Server Type    : MySQL
- Source Server Version : 50726
+ Source Server Version : 50733
  Source Host           : localhost:3306
- Source Schema         : febs_base
+ Source Schema         : official
 
  Target Server Type    : MySQL
- Target Server Version : 50726
+ Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 18/08/2019 17:56:09
+ Date: 06/07/2021 21:53:12
 */
 
 SET NAMES utf8mb4;
@@ -21,109 +21,191 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for t_dept
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dept`;
-CREATE TABLE `t_dept`  (
-                           `DEPT_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
-                           `PARENT_ID` bigint(20) NOT NULL COMMENT '上级部门ID',
-                           `DEPT_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门名称',
-                           `ORDER_NUM` bigint(20) NULL DEFAULT NULL COMMENT '排序',
-                           `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-                           `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                           PRIMARY KEY (`DEPT_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_dept` (
+                          `DEPT_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '部门ID',
+                          `PARENT_ID` bigint(20) NOT NULL COMMENT '上级部门ID',
+                          `DEPT_NAME` varchar(100) NOT NULL COMMENT '部门名称',
+                          `ORDER_NUM` bigint(20) DEFAULT NULL COMMENT '排序',
+                          `CREATE_ID` int(11) DEFAULT NULL COMMENT '创建人',
+                          `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+                          `MODIFY_ID` int(11) DEFAULT NULL COMMENT '修改人',
+                          `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                          `REMARK` int(11) DEFAULT NULL COMMENT '备注',
+                          `VERSION` int(11) DEFAULT NULL COMMENT '乐观锁',
+                          PRIMARY KEY (`DEPT_ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='部门表';
 
 -- ----------------------------
 -- Records of t_dept
 -- ----------------------------
-INSERT INTO `t_dept` VALUES (1, 0, '开发部', 1, '2019-06-14 20:56:41', NULL);
-INSERT INTO `t_dept` VALUES (2, 1, '开发一部', 1, '2019-06-14 20:58:46', NULL);
-INSERT INTO `t_dept` VALUES (3, 1, '开发二部', 2, '2019-06-14 20:58:56', NULL);
-INSERT INTO `t_dept` VALUES (4, 0, '采购部', 2, '2019-06-14 20:59:56', NULL);
-INSERT INTO `t_dept` VALUES (5, 0, '财务部', 3, '2019-06-14 21:00:08', NULL);
-INSERT INTO `t_dept` VALUES (6, 0, '销售部', 4, '2019-06-14 21:00:15', NULL);
-INSERT INTO `t_dept` VALUES (7, 0, '工程部', 5, '2019-06-14 21:00:42', NULL);
-INSERT INTO `t_dept` VALUES (8, 0, '行政部', 6, '2019-06-14 21:00:49', NULL);
-INSERT INTO `t_dept` VALUES (9, 0, '人力资源部', 8, '2019-06-14 21:01:14', '2019-06-14 21:01:34');
-INSERT INTO `t_dept` VALUES (10, 0, '系统部', 7, '2019-06-14 21:01:31', NULL);
+BEGIN;
+INSERT INTO `t_dept` VALUES (1, 0, '开发部', 1, NULL, '2019-06-14 20:56:41', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (2, 1, '开发一部', 1, NULL, '2019-06-14 20:58:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (3, 1, '开发二部', 2, NULL, '2019-06-14 20:58:56', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (4, 0, '采购部', 2, NULL, '2019-06-14 20:59:56', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (5, 0, '财务部', 3, NULL, '2019-06-14 21:00:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (6, 0, '销售部', 4, NULL, '2019-06-14 21:00:15', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (7, 0, '工程部', 5, NULL, '2019-06-14 21:00:42', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (8, 0, '行政部', 6, NULL, '2019-06-14 21:00:49', NULL, NULL, NULL, NULL);
+INSERT INTO `t_dept` VALUES (9, 0, '人力资源部', 8, NULL, '2019-06-14 21:01:14', NULL, '2019-06-14 21:01:34', NULL, NULL);
+INSERT INTO `t_dept` VALUES (10, 0, '系统部', 7, NULL, '2019-06-14 21:01:31', NULL, NULL, NULL, NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_dict_base
+-- ----------------------------
+DROP TABLE IF EXISTS `t_dict_base`;
+CREATE TABLE `t_dict_base` (
+                               `DICT_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典ID',
+                               `KEY` varchar(128) NOT NULL COMMENT 'key',
+                               `ORDER_NUM` bigint(20) DEFAULT NULL COMMENT '排序',
+                               `STATUS` int(1) DEFAULT NULL COMMENT '字典状态',
+                               `CREATE_ID` bigint(20) DEFAULT NULL COMMENT '创建人',
+                               `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+                               `MODIFY_ID` bigint(20) DEFAULT NULL COMMENT '修改人',
+                               `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                               `REMARK` varchar(128) DEFAULT NULL COMMENT '备注',
+                               `VERSION` int(5) DEFAULT NULL COMMENT '版本',
+                               PRIMARY KEY (`DICT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='字典表';
+
+-- ----------------------------
+-- Records of t_dict_base
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_dict_base` VALUES (1, 'SSEX', 1, 0, NULL, NULL, NULL, NULL, NULL, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_dict_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `t_dict_detail`;
+CREATE TABLE `t_dict_detail` (
+                                 `DICT_DETAIL_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '字典ID',
+                                 `PARENT_ID` bigint(20) DEFAULT NULL COMMENT '父ID',
+                                 `LABEL` varchar(128) DEFAULT NULL COMMENT '标签',
+                                 `VALUE` varchar(128) DEFAULT NULL COMMENT '值',
+                                 `ORDER_NUM` bigint(20) DEFAULT NULL COMMENT '排序',
+                                 `STATUS` int(1) DEFAULT NULL COMMENT '字典状态',
+                                 `DATA_TYPE` int(2) DEFAULT NULL COMMENT 'VALUE 的数据类型',
+                                 `CREATE_ID` bigint(20) DEFAULT NULL COMMENT '创建人',
+                                 `CREATE_TIME` datetime NOT NULL COMMENT '创建时间',
+                                 `MODIFY_ID` bigint(20) DEFAULT NULL COMMENT '修改人',
+                                 `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                                 `REMARK` varchar(128) DEFAULT NULL COMMENT '备注',
+                                 `VERSION` int(5) DEFAULT NULL COMMENT '版本',
+                                 PRIMARY KEY (`DICT_DETAIL_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典详情表';
 
 -- ----------------------------
 -- Table structure for t_eximport
 -- ----------------------------
 DROP TABLE IF EXISTS `t_eximport`;
-CREATE TABLE `t_eximport`  (
-                               `FIELD1` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字段1',
-                               `FIELD2` int(11) NOT NULL COMMENT '字段2',
-                               `FIELD3` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字段3',
-                               `CREATE_TIME` datetime(0) NOT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'Excel导入导出测试' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_eximport` (
+                              `FIELD1` varchar(20) NOT NULL COMMENT '字段1',
+                              `FIELD2` int(11) NOT NULL COMMENT '字段2',
+                              `FIELD3` varchar(100) NOT NULL COMMENT '字段3',
+                              `CREATE_ID` bigint(20) DEFAULT NULL,
+                              `CREATE_TIME` datetime NOT NULL,
+                              `MODIFY_ID` bigint(20) DEFAULT NULL,
+                              `MODIFY_TIME` datetime DEFAULT NULL,
+                              `REMARK` varchar(128) DEFAULT NULL,
+                              `VERSION` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Excel导入导出测试';
 
 -- ----------------------------
 -- Records of t_eximport
 -- ----------------------------
-INSERT INTO `t_eximport` VALUES ('字段1', 1, 'mrbird0@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 2, 'mrbird1@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 3, 'mrbird2@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 4, 'mrbird3@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 5, 'mrbird4@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 6, 'mrbird5@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 7, 'mrbird6@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 8, 'mrbird7@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 9, 'mrbird8@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 10, 'mrbird9@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 11, 'mrbird10@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 12, 'mrbird11@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 13, 'mrbird12@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 14, 'mrbird13@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 15, 'mrbird14@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 16, 'mrbird15@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 17, 'mrbird16@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 18, 'mrbird17@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 19, 'mrbird18@gmail.com', '2019-06-13 03:14:06');
-INSERT INTO `t_eximport` VALUES ('字段1', 20, 'mrbird19@gmail.com', '2019-06-13 03:14:06');
+BEGIN;
+INSERT INTO `t_eximport` VALUES ('字段1', 1, 'mrbird0@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 2, 'mrbird1@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 3, 'mrbird2@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 4, 'mrbird3@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 5, 'mrbird4@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 6, 'mrbird5@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 7, 'mrbird6@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 8, 'mrbird7@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 9, 'mrbird8@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 10, 'mrbird9@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 11, 'mrbird10@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 12, 'mrbird11@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 13, 'mrbird12@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 14, 'mrbird13@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 15, 'mrbird14@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 16, 'mrbird15@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 17, 'mrbird16@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 18, 'mrbird17@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 19, 'mrbird18@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 20, 'mrbird19@gmail.com', NULL, '2019-06-13 03:14:06', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 1, 'mrbird0@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 2, 'mrbird1@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 3, 'mrbird2@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 4, 'mrbird3@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 5, 'mrbird4@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 6, 'mrbird5@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 7, 'mrbird6@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 8, 'mrbird7@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 9, 'mrbird8@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 10, 'mrbird9@gmail.com', NULL, '2021-06-05 12:26:08', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 1, 'mrbird0@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 2, 'mrbird1@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 3, 'mrbird2@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 4, 'mrbird3@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 5, 'mrbird4@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 6, 'mrbird5@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 7, 'mrbird6@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 8, 'mrbird7@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 9, 'mrbird8@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+INSERT INTO `t_eximport` VALUES ('字段1', 10, 'mrbird9@gmail.com', 1, '2021-06-26 21:48:46', NULL, NULL, NULL, NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_generator_config
 -- ----------------------------
 DROP TABLE IF EXISTS `t_generator_config`;
-CREATE TABLE `t_generator_config`  (
-                                       `id` int(11) NOT NULL COMMENT '主键',
-                                       `author` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '作者',
-                                       `base_package` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '基础包名',
-                                       `entity_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'entity文件存放路径',
-                                       `mapper_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'mapper文件存放路径',
-                                       `mapper_xml_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'mapper xml文件存放路径',
-                                       `service_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'servcie文件存放路径',
-                                       `service_impl_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'serviceImpl文件存放路径',
-                                       `controller_package` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'controller文件存放路径',
-                                       `is_trim` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '是否去除前缀 1是 0否',
-                                       `trim_value` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前缀内容',
-                                       PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成配置表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_generator_config` (
+                                      `id` int(11) NOT NULL COMMENT '主键',
+                                      `author` varchar(20) NOT NULL COMMENT '作者',
+                                      `base_package` varchar(50) NOT NULL COMMENT '基础包名',
+                                      `entity_package` varchar(20) NOT NULL COMMENT 'entity文件存放路径',
+                                      `mapper_package` varchar(20) NOT NULL COMMENT 'mapper文件存放路径',
+                                      `mapper_xml_package` varchar(20) NOT NULL COMMENT 'mapper xml文件存放路径',
+                                      `service_package` varchar(20) NOT NULL COMMENT 'servcie文件存放路径',
+                                      `service_impl_package` varchar(20) NOT NULL COMMENT 'serviceImpl文件存放路径',
+                                      `controller_package` varchar(20) NOT NULL COMMENT 'controller文件存放路径',
+                                      `is_trim` char(1) NOT NULL COMMENT '是否去除前缀 1是 0否',
+                                      `trim_value` varchar(10) DEFAULT NULL COMMENT '前缀内容',
+                                      PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='代码生成配置表';
 
 -- ----------------------------
 -- Records of t_generator_config
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_generator_config` VALUES (1, 'MrBird', 'cc.mrbird.febs.gen', 'entity', 'mapper', 'mapper', 'service', 'service.impl', 'controller', '1', 't_');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_log
 -- ----------------------------
 DROP TABLE IF EXISTS `t_log`;
-CREATE TABLE `t_log`  (
-                          `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
-                          `USERNAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作用户',
-                          `OPERATION` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '操作内容',
-                          `TIME` decimal(11, 0) NULL DEFAULT NULL COMMENT '耗时',
-                          `METHOD` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '操作方法',
-                          `PARAMS` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '方法参数',
-                          `IP` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作者IP',
-                          `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-                          `location` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作地点',
-                          PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1008 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '操作日志表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_log` (
+                         `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '日志ID',
+                         `USERNAME` varchar(50) DEFAULT NULL COMMENT '操作用户',
+                         `OPERATION` text COMMENT '操作内容',
+                         `TIME` decimal(11,0) DEFAULT NULL COMMENT '耗时',
+                         `METHOD` text COMMENT '操作方法',
+                         `PARAMS` text COMMENT '方法参数',
+                         `IP` varchar(64) DEFAULT NULL COMMENT '操作者IP',
+                         `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+                         `location` varchar(50) DEFAULT NULL COMMENT '操作地点',
+                         PRIMARY KEY (`ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='操作日志表';
 
 -- ----------------------------
 -- Records of t_log
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_log` VALUES (890, 'MrBird', '修改角色', 1144, 'cc.mrbird.febs.system.controller.RoleController.updateRole()', ' role: \"Role(roleId=1, roleName=管理员, remark=管理员，拥有所有操作权限, createTime=null, modifyTime=Thu Jun 13 16:40:57 CST 2019, menuIds=1,3,11,12,13,160,161,4,14,15,16,5,17,18,19,6,20,21,22,2,8,23,10,24,136,113,114,127,128,129,130,131,101,102,103,104,105,106,107,108,109,110,137,138,139,115,132,133,135,134,126,159,116,117,119,120,121,122,123,118,125)\"', '127.0.0.1', '2019-06-13 08:40:59', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `t_log` VALUES (891, 'MrBird', '修改角色', 267, 'cc.mrbird.febs.system.controller.RoleController.updateRole()', ' role: \"Role(roleId=75, roleName=可怜, remark=, createTime=null, modifyTime=Thu Jun 13 16:47:00 CST 2019, menuIds=115)\"', '127.0.0.1', '2019-06-13 08:47:01', '内网IP|0|0|内网IP|内网IP');
 INSERT INTO `t_log` VALUES (892, 'MrBird', '修改角色', 478, 'cc.mrbird.febs.system.controller.RoleController.updateRole()', ' role: \"Role(roleId=1, roleName=管理员, remark=管理员，拥有所有操作权限, createTime=null, modifyTime=Thu Jun 13 16:47:15 CST 2019, menuIds=1,3,11,12,13,160,161,4,14,15,16,5,17,18,19,6,20,21,22,2,8,23,10,24,136,113,114,127,128,129,130,131,101,102,103,104,105,106,107,108,109,110,137,138,139,115,132,133,135,134,126,159,116,117,119,120,121,122,123,118,125)\"', '127.0.0.1', '2019-06-13 08:47:16', '内网IP|0|0|内网IP|内网IP');
@@ -242,53 +324,75 @@ INSERT INTO `t_log` VALUES (1004, 'MrBird', '修改角色', 44, 'cc.mrbird.febs.
 INSERT INTO `t_log` VALUES (1005, 'MrBird', '修改角色', 17, 'cc.mrbird.febs.system.controller.RoleController.updateRole()', ' role: \"Role(roleId=2, roleName=注册账户, remark=注册账户，拥有查看，新增权限（新增用户除外）和导出Excel权限, createTime=null, modifyTime=Sun Aug 18 17:36:01 CST 2019, menuIds=1,3,161,4,14,162,5,17,163,6,20,164,2,8,10,170,136,172,113,114,127,128,129,130,131,175,101,102,173,109,174,137,138,139,115,132,133,135,134,126,159,116,117,119,120,121,122,123,118,125,167,168,169)\"', '127.0.0.1', '2019-08-18 17:36:02', '');
 INSERT INTO `t_log` VALUES (1006, 'Scott', '新增菜单/按钮', 13, 'cc.mrbird.febs.system.controller.MenuController.addMenu()', ' menu: \"Menu(menuId=176, parentId=0, menuName=1234, url=null, perms=null, icon=null, type=1, orderNum=null, createTime=Sun Aug 18 17:37:09 CST 2019, modifyTime=null)\"', '127.0.0.1', '2019-08-18 17:37:10', '');
 INSERT INTO `t_log` VALUES (1007, 'Scott', '新增菜单/按钮', 14, 'cc.mrbird.febs.system.controller.MenuController.addMenu()', ' menu: \"Menu(menuId=177, parentId=0, menuName=513241, url=, perms=, icon=, type=0, orderNum=null, createTime=Sun Aug 18 17:38:30 CST 2019, modifyTime=null)\"', '127.0.0.1', '2019-08-18 17:38:30', '');
+INSERT INTO `t_log` VALUES (1008, 'MrBird', '删除菜单/按钮', 7, 'cc.mrbird.febs.system.controller.MenuController.deleteMenus()', ' menuIds: \"176,177\"', NULL, '2021-06-27 00:11:50', '');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_login_log
 -- ----------------------------
 DROP TABLE IF EXISTS `t_login_log`;
-CREATE TABLE `t_login_log`  (
-                                `ID` bigint(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-                                `USERNAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-                                `LOGIN_TIME` datetime(0) NOT NULL COMMENT '登录时间',
-                                `LOCATION` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录地点',
-                                `IP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'IP地址',
-                                `SYSTEM` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '操作系统',
-                                `BROWSER` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '浏览器',
-                                PRIMARY KEY (`ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_login_log` (
+                               `ID` bigint(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+                               `USERNAME` varchar(50) NOT NULL COMMENT '用户名',
+                               `LOGIN_TIME` datetime NOT NULL COMMENT '登录时间',
+                               `LOCATION` varchar(50) DEFAULT NULL COMMENT '登录地点',
+                               `IP` varchar(50) DEFAULT NULL COMMENT 'IP地址',
+                               `SYSTEM` varchar(50) DEFAULT NULL COMMENT '操作系统',
+                               `BROWSER` varchar(50) DEFAULT NULL COMMENT '浏览器',
+                               PRIMARY KEY (`ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='登录日志表';
 
 -- ----------------------------
 -- Records of t_login_log
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_login_log` VALUES (64, 'mrbird', '2019-08-11 20:12:31', '', '192.168.56.1', 'Windows 10', 'Chrome 75');
 INSERT INTO `t_login_log` VALUES (65, 'mrbird', '2019-08-18 17:10:27', '', '127.0.0.1', 'Windows 10', 'Chrome 75');
 INSERT INTO `t_login_log` VALUES (66, 'scott', '2019-08-18 17:35:32', '', '127.0.0.1', 'Windows 10', 'Chrome 75');
 INSERT INTO `t_login_log` VALUES (67, 'mrbird', '2019-08-18 17:35:53', '', '127.0.0.1', 'Windows 10', 'Chrome 75');
 INSERT INTO `t_login_log` VALUES (68, 'scott', '2019-08-18 17:36:17', '', '127.0.0.1', 'Windows 10', 'Chrome 75');
 INSERT INTO `t_login_log` VALUES (69, 'mrbird', '2019-08-18 17:39:24', '', '127.0.0.1', 'Windows 10', 'Chrome 75');
+INSERT INTO `t_login_log` VALUES (70, 'mrbird', '2021-01-28 16:18:56', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 88');
+INSERT INTO `t_login_log` VALUES (71, 'mrbird', '2021-01-29 10:09:04', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 88');
+INSERT INTO `t_login_log` VALUES (72, 'mrbird', '2021-01-29 11:34:47', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 88');
+INSERT INTO `t_login_log` VALUES (73, 'mrbird', '2021-04-24 18:23:55', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (74, 'mrbird', '2021-04-24 18:48:57', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (75, 'mrbird', '2021-04-24 19:13:54', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (76, 'mrbird', '2021-04-24 19:20:51', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (77, 'mrbird', '2021-04-24 19:25:57', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (78, 'mrbird', '2021-04-24 20:48:30', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (79, 'mrbird', '2021-04-30 23:53:01', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 90');
+INSERT INTO `t_login_log` VALUES (80, 'mrbird', '2021-06-05 10:30:51', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (81, 'mrbird', '2021-06-05 12:25:59', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (82, 'mrbird', '2021-06-05 13:43:24', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (83, 'mrbird', '2021-06-26 10:44:51', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (84, 'mrbird', '2021-06-26 16:40:31', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (85, 'mrbird', '2021-06-26 20:30:57', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+INSERT INTO `t_login_log` VALUES (86, 'mrbird', '2021-06-27 00:11:26', '内网IP|0|0|内网IP|内网IP', '127.0.0.1', 'Mac OS X 10_15_5', 'Chrome 91');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `t_menu`;
-CREATE TABLE `t_menu`  (
-                           `MENU_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单/按钮ID',
-                           `PARENT_ID` bigint(20) NOT NULL COMMENT '上级菜单ID',
-                           `MENU_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单/按钮名称',
-                           `URL` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单URL',
-                           `PERMS` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '权限标识',
-                           `ICON` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
-                           `TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型 0菜单 1按钮',
-                           `ORDER_NUM` bigint(20) NULL DEFAULT NULL COMMENT '排序',
-                           `CREATE_TIME` datetime(0) NOT NULL COMMENT '创建时间',
-                           `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                           PRIMARY KEY (`MENU_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 178 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_menu` (
+                          `MENU_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单/按钮ID',
+                          `PARENT_ID` bigint(20) NOT NULL COMMENT '上级菜单ID',
+                          `MENU_NAME` varchar(50) NOT NULL COMMENT '菜单/按钮名称',
+                          `URL` varchar(50) DEFAULT NULL COMMENT '菜单URL',
+                          `PERMS` text COMMENT '权限标识',
+                          `ICON` varchar(50) DEFAULT NULL COMMENT '图标',
+                          `TYPE` char(2) NOT NULL COMMENT '类型 0菜单 1按钮',
+                          `ORDER_NUM` bigint(20) DEFAULT NULL COMMENT '排序',
+                          `CREATE_TIME` datetime NOT NULL COMMENT '创建时间',
+                          `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                          PRIMARY KEY (`MENU_ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='菜单表';
 
 -- ----------------------------
 -- Records of t_menu
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_menu` VALUES (1, 0, '系统管理', NULL, NULL, 'layui-icon-setting', '0', 1, '2017-12-27 16:39:07', NULL);
 INSERT INTO `t_menu` VALUES (2, 0, '系统监控', '', '', 'layui-icon-alert', '0', 2, '2017-12-27 16:45:51', '2019-06-13 11:20:40');
 INSERT INTO `t_menu` VALUES (3, 1, '用户管理', '/system/user', 'user:view', 'layui-icon-meh', '0', 1, '2017-12-27 16:47:13', '2019-06-13 11:13:55');
@@ -352,44 +456,46 @@ INSERT INTO `t_menu` VALUES (170, 10, '导出Excel', NULL, 'log:export', NULL, '
 INSERT INTO `t_menu` VALUES (171, 136, '删除日志', NULL, 'loginlog:delete', NULL, '1', NULL, '2019-06-13 14:35:27', '2019-06-13 14:36:08');
 INSERT INTO `t_menu` VALUES (172, 136, '导出Excel', NULL, 'loginlog:export', NULL, '1', NULL, '2019-06-13 14:36:26', NULL);
 INSERT INTO `t_menu` VALUES (175, 2, 'Swagger文档', '/monitor/swagger', 'swagger:view', '', '0', 8, '2019-08-18 17:25:36', '2019-08-18 17:25:59');
-INSERT INTO `t_menu` VALUES (176, 0, '1234', NULL, NULL, NULL, '1', NULL, '2019-08-18 17:37:10', NULL);
-INSERT INTO `t_menu` VALUES (177, 0, '513241', '', '', '', '0', NULL, '2019-08-18 17:38:30', NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role`;
-CREATE TABLE `t_role`  (
-                           `ROLE_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-                           `ROLE_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
-                           `REMARK` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色描述',
-                           `CREATE_TIME` datetime(0) NOT NULL COMMENT '创建时间',
-                           `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                           PRIMARY KEY (`ROLE_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_role` (
+                          `ROLE_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色ID',
+                          `ROLE_NAME` varchar(100) NOT NULL COMMENT '角色名称',
+                          `REMARK` varchar(100) DEFAULT NULL COMMENT '角色描述',
+                          `CREATE_TIME` datetime NOT NULL COMMENT '创建时间',
+                          `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                          PRIMARY KEY (`ROLE_ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_role` VALUES (1, '系统管理员', '系统管理员，拥有所有操作权限 ^_^', '2019-06-14 16:23:11', '2019-08-18 17:26:19');
 INSERT INTO `t_role` VALUES (2, '注册账户', '注册账户，拥有查看，新增权限（新增用户除外）和导出Excel权限', '2019-06-14 16:00:15', '2019-08-18 17:36:02');
 INSERT INTO `t_role` VALUES (77, 'Redis监控员', '负责Redis模块', '2019-06-14 20:49:22', NULL);
 INSERT INTO `t_role` VALUES (78, '系统监控员', '负责整个系统监控模块', '2019-06-14 20:50:07', NULL);
 INSERT INTO `t_role` VALUES (79, '跑批人员', '负责任务调度跑批模块', '2019-06-14 20:51:02', NULL);
 INSERT INTO `t_role` VALUES (80, '开发人员', '拥有代码生成模块的权限', '2019-06-14 20:51:26', NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_role_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `t_role_menu`;
-CREATE TABLE `t_role_menu`  (
-                                `ROLE_ID` bigint(20) NOT NULL COMMENT '角色ID',
-                                `MENU_ID` bigint(20) NOT NULL COMMENT '菜单/按钮ID'
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单关联表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_role_menu` (
+                               `ROLE_ID` bigint(20) NOT NULL COMMENT '角色ID',
+                               `MENU_ID` bigint(20) NOT NULL COMMENT '菜单/按钮ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色菜单关联表';
 
 -- ----------------------------
 -- Records of t_role_menu
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_role_menu` VALUES (77, 2);
 INSERT INTO `t_role_menu` VALUES (77, 113);
 INSERT INTO `t_role_menu` VALUES (77, 114);
@@ -554,53 +660,77 @@ INSERT INTO `t_role_menu` VALUES (2, 125);
 INSERT INTO `t_role_menu` VALUES (2, 167);
 INSERT INTO `t_role_menu` VALUES (2, 168);
 INSERT INTO `t_role_menu` VALUES (2, 169);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_site
+-- ----------------------------
+DROP TABLE IF EXISTS `t_site`;
+CREATE TABLE `t_site` (
+                          `SITE_ID` int(4) NOT NULL AUTO_INCREMENT COMMENT '站点编号',
+                          `SITE_NAME` varchar(100) NOT NULL COMMENT '站点名称',
+                          `SITE_PATH` varchar(100) NOT NULL COMMENT '站点简称',
+                          `KEYWORDS` varchar(100) DEFAULT NULL COMMENT '关键字',
+                          `DOMAIN_NAME` varchar(100) DEFAULT NULL COMMENT '域名',
+                          `ACCESS_PROTOCOL` varchar(10) DEFAULT NULL COMMENT '访问协议',
+                          `ACCESS_PATH` varchar(100) DEFAULT NULL COMMENT '访问地址',
+                          `ORDER_NUM` char(3) DEFAULT NULL COMMENT '排序',
+                          `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+                          `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                          `STATUS` char(1) DEFAULT NULL COMMENT '0、删除 1、正常',
+                          `REMARK` varchar(64) DEFAULT NULL COMMENT '备注',
+                          PRIMARY KEY (`SITE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='站点管理';
 
 -- ----------------------------
 -- Table structure for t_user
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
-CREATE TABLE `t_user`  (
-                           `USER_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-                           `USERNAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-                           `PASSWORD` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-                           `DEPT_ID` bigint(20) NULL DEFAULT NULL COMMENT '部门ID',
-                           `EMAIL` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-                           `MOBILE` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '联系电话',
-                           `STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '状态 0锁定 1有效',
-                           `CREATE_TIME` datetime(0) NOT NULL COMMENT '创建时间',
-                           `MODIFY_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
-                           `LAST_LOGIN_TIME` datetime(0) NULL DEFAULT NULL COMMENT '最近访问时间',
-                           `SSEX` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '性别 0男 1女 2保密',
-                           `IS_TAB` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否开启tab，0关闭 1开启',
-                           `THEME` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '主题',
-                           `AVATAR` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
-                           `DESCRIPTION` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '描述',
-                           PRIMARY KEY (`USER_ID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_user` (
+                          `USER_ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+                          `USERNAME` varchar(50) NOT NULL COMMENT '用户名',
+                          `PASSWORD` varchar(128) NOT NULL COMMENT '密码',
+                          `DEPT_ID` bigint(20) DEFAULT NULL COMMENT '部门ID',
+                          `EMAIL` varchar(128) DEFAULT NULL COMMENT '邮箱',
+                          `MOBILE` varchar(20) DEFAULT NULL COMMENT '联系电话',
+                          `STATUS` char(1) NOT NULL COMMENT '状态 0锁定 1有效',
+                          `CREATE_TIME` datetime NOT NULL COMMENT '创建时间',
+                          `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
+                          `LAST_LOGIN_TIME` datetime DEFAULT NULL COMMENT '最近访问时间',
+                          `SSEX` char(1) DEFAULT NULL COMMENT '性别 0男 1女 2保密',
+                          `IS_TAB` char(1) DEFAULT NULL COMMENT '是否开启tab，0关闭 1开启',
+                          `THEME` varchar(10) DEFAULT NULL COMMENT '主题',
+                          `AVATAR` varchar(100) DEFAULT NULL COMMENT '头像',
+                          `DESCRIPTION` varchar(100) DEFAULT NULL COMMENT '描述',
+                          PRIMARY KEY (`USER_ID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES (1, 'MrBird', 'cb62ad1497597283961545d608f80241', 1, 'mrbird@qq.com', '17788888888', '1', '2019-06-14 20:39:22', '2019-06-14 20:44:42', '2019-08-18 17:39:25', '0', '1', 'white', 'cnrhVkzwxjPwAaCfPbdc.png', '我是帅比作者。');
+BEGIN;
+INSERT INTO `t_user` VALUES (1, 'MrBird', 'cb62ad1497597283961545d608f80241', 1, 'mrbird@qq.com', '17788888888', '1', '2019-06-14 20:39:22', '2019-06-14 20:44:42', '2021-06-27 00:11:27', '0', '1', 'white', 'cnrhVkzwxjPwAaCfPbdc.png', '我是帅比作者。');
 INSERT INTO `t_user` VALUES (2, 'Scott', '1d685729d113cfd03872f154939bee1c', 10, 'scott@gmail.com', '17722222222', '1', '2019-06-14 20:55:53', '2019-06-14 21:05:43', '2019-08-18 17:36:18', '0', '1', 'black', 'gaOngJwsRYRaVAuXXcmB.png', '我是scott。');
 INSERT INTO `t_user` VALUES (3, 'Reina', '1461afff857c02afbfb768aa3771503d', 4, 'Reina@hotmail.com', '17711111111', '0', '2019-06-14 21:07:38', '2019-06-14 21:09:06', '2019-06-14 21:08:26', '1', '1', 'black', '5997fedcc7bd4cffbd350b40d1b5b987.jpg', '由于公款私用，已被封禁。');
 INSERT INTO `t_user` VALUES (4, 'Micaela', '9f2daa2c7bed6870fcbb5b9a51d6300e', 10, 'Micaela@163.com', '17733333333', '1', '2019-06-14 21:10:13', '2019-06-14 21:11:26', '2019-06-14 21:10:37', '0', '0', 'white', '20180414165909.jpg', '我叫米克拉');
 INSERT INTO `t_user` VALUES (5, 'Jana', '176679b77b3c3e352bd3b30ddc81083e', 8, 'Jana@126.com', '17744444444', '1', '2019-06-14 21:12:16', '2019-06-14 21:12:52', '2019-06-14 21:12:32', '1', '1', 'white', '20180414165821.jpg', '大家好，我叫简娜');
 INSERT INTO `t_user` VALUES (6, 'Georgie', 'dffc683378cdaa015a0ee9554c532225', 3, 'Georgie@qq.com', '17766666666', '0', '2019-06-14 21:15:09', '2019-06-14 21:16:25', '2019-06-14 21:16:11', '2', '0', 'black', 'BiazfanxmamNRoxxVxka.png', '生产执行rm -rf *，账号封禁T T');
 INSERT INTO `t_user` VALUES (7, 'Margot', '31379841b9f4bfde22b8b40471e9a6ce', 9, 'Margot@qq.com', '13444444444', '1', '2019-06-14 21:17:53', '2019-06-14 21:18:59', '2019-06-14 21:18:07', '1', '1', 'white', '20180414165834.jpg', '大家好我叫玛戈');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user_role`;
-CREATE TABLE `t_user_role`  (
-                                `USER_ID` bigint(20) NOT NULL COMMENT '用户ID',
-                                `ROLE_ID` bigint(20) NOT NULL COMMENT '角色ID'
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色关联表' ROW_FORMAT = Dynamic;
+CREATE TABLE `t_user_role` (
+                               `USER_ID` bigint(20) NOT NULL COMMENT '用户ID',
+                               `ROLE_ID` bigint(20) NOT NULL COMMENT '角色ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色关联表';
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
+BEGIN;
 INSERT INTO `t_user_role` VALUES (1, 1);
 INSERT INTO `t_user_role` VALUES (2, 2);
 INSERT INTO `t_user_role` VALUES (3, 77);
@@ -610,25 +740,6 @@ INSERT INTO `t_user_role` VALUES (6, 80);
 INSERT INTO `t_user_role` VALUES (7, 78);
 INSERT INTO `t_user_role` VALUES (7, 79);
 INSERT INTO `t_user_role` VALUES (7, 80);
-
--- ----------------------------
--- Table structure for t_site
--- ----------------------------
-DROP TABLE IF EXISTS `t_site`;
-CREATE TABLE `t_site` (
-  `SITE_ID` int(4) NOT NULL AUTO_INCREMENT COMMENT '站点编号',
-  `SITE_NAME` varchar(100) NOT NULL COMMENT '站点名称',
-  `SITE_PATH` varchar(100) NOT NULL COMMENT '站点简称',
-  `KEYWORDS` varchar(100) DEFAULT NULL COMMENT '关键字',
-  `DOMAIN_NAME` varchar(100) DEFAULT NULL COMMENT '域名',
-  `ACCESS_PROTOCOL` varchar(10) DEFAULT NULL COMMENT '访问协议',
-  `ACCESS_PATH` varchar(100) DEFAULT NULL COMMENT '访问地址',
-  `SORT` char(3) DEFAULT NULL COMMENT '排序',
-  `CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
-  `MODIFY_TIME` datetime DEFAULT NULL COMMENT '修改时间',
-  `STATUS` char(1) DEFAULT NULL COMMENT '0、删除 1、正常',
-  `REMARK` varchar(64) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`SITE_ID`)
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT='站点管理' ROW_FORMAT = Dynamic;
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

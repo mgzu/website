@@ -1,3 +1,19 @@
+/*
+ *    Copyright 2021 [website of copyright mrbird & mgzu]
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package cc.mrbird.febs.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -45,8 +61,8 @@ public class DictDetail extends BaseEntity {
     private String value;
 
     @ApiModelProperty(value = "排序")
-    @TableField("SORT")
-    private Integer sort;
+    @TableField("ORDER_NUM")
+    private Integer orderNum;
 
     @ApiModelProperty(value = "字典状态")
     @TableField("STATUS")
@@ -55,6 +71,5 @@ public class DictDetail extends BaseEntity {
     @ApiModelProperty(value = "VALUE 的数据类型")
     @TableField("DATA_TYPE")
     private Integer dataType;
-
 
 }
