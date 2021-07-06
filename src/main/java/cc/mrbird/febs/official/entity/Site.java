@@ -84,8 +84,8 @@ public class Site extends BaseEntity {
     /**
      * 排序
      */
-    @TableField("SORT")
-    private String sort;
+    @TableField("ORDER_NUM")
+    private String orderNum;
 
     /**
      * 创建时间
